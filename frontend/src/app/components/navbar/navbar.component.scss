@@ -1,0 +1,32 @@
+.navbar {
+	list-style-type: none;
+	background-color: cornflowerblue;
+	color: white;
+	
+	.right-elements {
+		float: right;
+		display: flex;
+		padding-right: 15%;
+		
+		.nav-element {
+			display: inline;
+			margin-right: 6%;
+			
+			.btn {
+				margin-top: 23%;
+				padding-top: 2%;
+				padding-bottom: 2%;
+			}
+			
+			.password-reminder {
+				color: lightblue;
+			}
+		}
+	}
+	
+	.app-title {
+		font-size: 47px;
+		font-weight: bold;
+		padding-left: 15%;
+	}
+}
