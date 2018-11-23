@@ -1,17 +1,19 @@
-<ul class="navbar">
-	<li class="nav-element app-title">friendsbook</li>
-	<form class="right-elements">
-		<li class="nav-element">
-			<div [(ngModel)]="user.emailOrLogin" name="emailOrLogin">E-mail lub login</div>
-			<input />
-		</li>
-		<li class="nav-element">
-			<div>Hasło</div>
-			<input type="password" [(ngModel)]="user.password" name="password"/>
-			<div class="password-reminder">Nie pamiętasz hasła?</div>
-		</li>
-		<li class="nav-element">
-			<button class="btn btn-primary">Zaloguj się</button>
-		</li>
-	</form>
-</ul>
+<form (ngSubmit)="logIn()">
+    <ul class="navbar">
+            <li class="nav-element app-title">friendsbook</li>
+            <div class="right-elements">
+                    <li class="nav-element">
+                            <div>E-mail lub login</div>
+                            <input [(ngModel)]="user.login" name="login"/>
+                    </li>
+                    <li class="nav-element">
+                            <div>Hasło</div>
+                            <input type="password" [(ngModel)]="user.password" name="password"/>
+                            <div class="password-reminder">Nie pamiętasz hasła?</div>
+                    </li>
+                    <li class="nav-element">
+                            <button class="btn btn-primary" type="submit">Zaloguj się</button>
+                    </li>
+            </div>
+    </ul>
+</form>
