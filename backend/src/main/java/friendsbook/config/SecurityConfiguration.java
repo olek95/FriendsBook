@@ -1,34 +1,53 @@
 package friendsbook.config;
 
-import javax.sql.DataSource;
+import friendsbook.filter.AuthenticationFilter;
+import friendsbook.filter.CorsFilter;
+import javax.ws.rs.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    DataSource dataSource;
+    private final AuthenticationProvider authenticationProvider;
     
-    private final static String USERS_BY_USERNAME_QUERY = "SELECT login as username, password, true FROM user WHERE login = ?";
-    private final static String AUTHORITIES_BY_USERNAME_QUERY = "SELECT login as username, 'ROLE_USER' FROM user WHERE login = ?";
+    @Autowired
+    public SecurityConfiguration(AuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .dataSource(dataSource)
-                .usersByUsernameQuery(USERS_BY_USERNAME_QUERY)
-                .authoritiesByUsernameQuery(AUTHORITIES_BY_USERNAME_QUERY);
+        auth.authenticationProvider(authenticationProvider);
     }
     
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.cors().and().authorizeRequests().antMatchers("/account/login").permitAll()
-                .anyRequest().authenticated().and().httpBasic();
+        http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
+                .authorizeRequests().anyRequest().authenticated().and()
+                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .httpBasic();
+    }
+    
+    @Bean
+    public AuthenticationFilter authenticationFilter() throws Exception {
+        AuthenticationFilter filter = new AuthenticationFilter();
+        filter.setAuthenticationSuccessHandler((request, response, authentication) 
+                ->  response.setStatus(HttpStatus.OK.value()) );
+        filter.setAuthenticationFailureHandler((request, response, authenticationException)
+                -> response.setStatus(HttpStatus.UNAUTHORIZED.value()));
+        filter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/account/login", HttpMethod.GET));
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
     }
 }

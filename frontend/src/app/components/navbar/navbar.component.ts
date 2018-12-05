@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user';
 import { AuthorizationService } from '../../services/authorization.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-navbar',
@@ -8,18 +8,19 @@ import { AuthorizationService } from '../../services/authorization.service';
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-    user = {login: '', password: '', email: ''};	
+    name: string;
+    password: string;
 
-    constructor(private authorizationService: AuthorizationService) { }
+    constructor(private authorizationService: AuthorizationService, private toastrService: ToastrService) { }
 
     ngOnInit() {
     }
-    
+
     logIn() {
-        this.authorizationService.logIn(this.user).subscribe(response => {
+        this.authorizationService.logIn(this.name, this.password).subscribe(response => {
             console.log(response);
         }, err => {
-            console.log(err);
+          this.toastrService.error("Not correct credentials passed", 'Authorization Error');
         })
     }
 }
