@@ -1,0 +1,39 @@
+:host {
+    font-size: 1.3em;
+
+    .registration-multiple-fields-row {
+        display: flex;
+
+        &:not(:first-of-type) {
+            margin-top: 3%;
+        }
+
+        .right-field {
+            margin-left: 3%;
+        }
+    }
+
+    .mail {
+        margin-top: 3%;
+    }
+
+    .birth-date-label {
+        margin-top: 5%;
+    }
+
+    .gender-segment {
+
+        input[name="gender"] {
+            margin-left: 6%;
+            margin-top: 5%;
+        }
+
+        label {
+            margin-left: 2%;
+        }
+    }
+
+    .registration-button {
+        padding: 1% 9%;
+    }
+}

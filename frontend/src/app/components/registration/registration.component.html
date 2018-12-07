@@ -1,0 +1,34 @@
+<div>
+    <h1>Utwórz nowe konto</h1>
+    <p>To jest i zawsze będzie darmowe!</p>
+    <form (ngSubmit)="register()">
+        <div class="registration-multiple-fields-row">
+            <input class="form-control" placeholder="Imię" name="name" [(ngModel)]="user.name"/>
+            <input class="form-control right-field" placeholder="Nazwisko" name="surname" [(ngModel)]="user.surname"/>
+        </div>
+        <div class="registration-multiple-fields-row">
+            <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login"/>
+            <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password"/>
+        </div>
+        <input class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"/>
+        <label class="birth-date-label" for="calendar-input">Data urodzenia</label>
+        <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="calendar-input" name="birth-date" [(ngModel)]="user.birthDate"
+                   ngbDatepicker #dataPicker="ngbDatepicker">
+                   <div class="input-group-append">
+                <div class="btn btn-outline-secondary" (click)="dataPicker.toggle()" >
+                    <i class="fa fa-calendar"> </i>
+                </div>
+            </div>
+        </div>
+        <span class="gender-segment">
+            <input type="radio" name="gender" id="woman" [value]="gender.FEMALE" [(ngModel)]="user.gender" />
+            <label for="woman">Kobieta</label>
+            <input type="radio" name="gender" id="man" [value]="gender.MALE" [(ngModel)]="user.gender" />
+            <label for="man">Mężczyzna</label>
+        </span>
+        <div>
+            <button class="btn btn-success btn-lg registration-button" type="submit">Rejestracja</button>
+        </div>
+    </form>
+</div>
