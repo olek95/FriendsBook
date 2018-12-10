@@ -1,16 +1,24 @@
 package friendsbook.config;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import java.util.Properties;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
 @EnableJpaRepositories(basePackages={"friendsbook.dao"})
@@ -35,10 +43,13 @@ public class DatasourceConfiguration {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, 
             JpaVendorAdapter jpaVendorAdapter) {
+        Properties properties = new Properties();
+        properties.put("hibernate.physical_naming_strategy", PhysicalNamingStrategyImpl.class.getName());
         LocalContainerEntityManagerFactoryBean container = new LocalContainerEntityManagerFactoryBean();
         container.setDataSource(dataSource);
         container.setJpaVendorAdapter(jpaVendorAdapter);
         container.setPackagesToScan("friendsbook.domain");
+        container.setJpaProperties(properties);
         return container;
     }
     
@@ -50,5 +61,17 @@ public class DatasourceConfiguration {
         adapter.setGenerateDdl(false);
         adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
         return adapter;
+    }
+    
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager manager = new JpaTransactionManager();
+        manager.setEntityManagerFactory(entityManagerFactory);
+        return manager;
+    }
+    
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 }

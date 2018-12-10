@@ -1,9 +1,15 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~ngx-toastr/toastr.css";
 
 body {
     background-color: rgb(233, 235, 238);
 
     ::placeholder {
         color: rgb(153, 153, 153) !important;
+    }
+
+    :disabled {
+        cursor: not-allowed;
     }
 }

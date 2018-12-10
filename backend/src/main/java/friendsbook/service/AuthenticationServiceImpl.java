@@ -23,12 +23,12 @@ public class AuthenticationServiceImpl extends AbstractUserDetailsAuthentication
     }
 
     @Override
-    protected UserDetails retrieveUser(String string, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    protected UserDetails retrieveUser(String string, UsernamePasswordAuthenticationToken authentication) {
         String name = authentication.getName();
         UserDetails user = EmailValidator.getInstance().isValid(name) ? 
                 userService.loadUserByEmail(name) : userService.loadUserByUsername(name);
         if (user == null || !((String)authentication.getCredentials()).equals(user.getPassword())){
-            throw new BadCredentialsException("Bad credentials");
+            throw new BadCredentialsException("Bad login/mail or password");
         }
         return user; 
     }

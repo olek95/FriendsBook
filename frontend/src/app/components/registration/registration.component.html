@@ -1,25 +1,23 @@
 <div>
     <h1>Utwórz nowe konto</h1>
     <p>To jest i zawsze będzie darmowe!</p>
-    <form (ngSubmit)="register()">
+    <form (ngSubmit)="register()" #registrationForm="ngForm">
         <div class="registration-multiple-fields-row">
-            <input class="form-control" placeholder="Imię" name="name" [(ngModel)]="user.name"/>
-            <input class="form-control right-field" placeholder="Nazwisko" name="surname" [(ngModel)]="user.surname"/>
+            <input class="form-control" placeholder="Imię" name="name" [(ngModel)]="user.name" required/>
+            <input class="form-control right-field" placeholder="Nazwisko" name="surname" [(ngModel)]="user.surname" required/>
         </div>
         <div class="registration-multiple-fields-row">
-            <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login"/>
-            <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password"/>
+            <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login" required/>
+            <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password" required/>
         </div>
-        <input class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"/>
+        <input type="email" class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"
+               [pattern]="emailPattern" required/>
         <label class="birth-date-label" for="calendar-input">Data urodzenia</label>
         <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" id="calendar-input" name="birth-date" [(ngModel)]="user.birthDate"
-                   ngbDatepicker #dataPicker="ngbDatepicker">
-                   <div class="input-group-append">
-                <div class="btn btn-outline-secondary" (click)="dataPicker.toggle()" >
-                    <i class="fa fa-calendar"> </i>
-                </div>
-            </div>
+            <input class="form-control" id="calendar-input" [owlDateTime]="dt6" placeholder="yyyy-mm-dd"
+                   [(ngModel)]="user.birthDate" name="birth-date" required>
+            <span [owlDateTimeTrigger]="dt6"><i class="fa fa-calendar"></i></span>
+            <owl-date-time [pickerType]="'calendar'" #dt6></owl-date-time>
         </div>
         <span class="gender-segment">
             <input type="radio" name="gender" id="woman" [value]="gender.FEMALE" [(ngModel)]="user.gender" />
@@ -28,7 +26,8 @@
             <label for="man">Mężczyzna</label>
         </span>
         <div>
-            <button class="btn btn-success btn-lg registration-button" type="submit">Rejestracja</button>
+            <button class="btn btn-success btn-lg registration-button" type="submit"
+                    [disabled]="!registrationForm.form.valid">Rejestracja</button>
         </div>
     </form>
 </div>

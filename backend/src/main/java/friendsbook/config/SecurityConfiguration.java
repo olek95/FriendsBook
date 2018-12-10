@@ -2,10 +2,10 @@ package friendsbook.config;
 
 import friendsbook.filter.AuthenticationFilter;
 import friendsbook.filter.CorsFilter;
-import javax.ws.rs.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,8 +33,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
-                .authorizeRequests().anyRequest().authenticated().and()
+        http.csrf().disable().addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
+                .authorizeRequests().antMatchers("/account/register").permitAll()
+                .anyRequest().authenticated().and()
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
     }
@@ -43,10 +44,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationFilter authenticationFilter() throws Exception {
         AuthenticationFilter filter = new AuthenticationFilter();
         filter.setAuthenticationSuccessHandler((request, response, authentication) 
-                ->  response.setStatus(HttpStatus.OK.value()) );
+                ->  response.setStatus(HttpStatus.OK.value()));
         filter.setAuthenticationFailureHandler((request, response, authenticationException)
                 -> response.setStatus(HttpStatus.UNAUTHORIZED.value()));
-        filter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/account/login", HttpMethod.GET));
+        filter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/account/login", HttpMethod.GET.toString()));
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }

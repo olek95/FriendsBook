@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -24,7 +24,8 @@ const routes: Routes = [{path: 'login', component: NavbarComponent}]
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        NgbModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
         RouterModule.forRoot(routes),
         ToastrModule.forRoot()
     ],
