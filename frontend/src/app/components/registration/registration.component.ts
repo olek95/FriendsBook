@@ -3,6 +3,7 @@ import { User } from '../../models/user/user';
 import { Gender } from '../../models/user/gender';
 import { AuthorizationService } from '../../services/authorization.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgModel } from '@angular/forms';
 
 @Component({
     selector: 'app-registration',
@@ -32,5 +33,16 @@ export class RegistrationComponent implements OnInit {
                 "Registration failed");
         })
     }
-
+    
+    hasBirthDateCorrectFormat(dateNgModel: NgModel) {
+        return !dateNgModel.errors || !dateNgModel.errors.owlDateTimeParse;
+    }
+    
+    isEmailCorrect(mailNgModel: NgModel) {
+        return !mailNgModel.errors || !mailNgModel.errors.pattern;
+    }
+    
+    checkIfErrorTooltipShouldToBeDisplayed(ngModel: NgModel, tooltip, validationFunction: (model: NgModel) => boolean) {
+        return validationFunction(ngModel) ? tooltip.close() : tooltip.open();
+    }
 }

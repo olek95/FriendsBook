@@ -12,4 +12,18 @@ body {
     :disabled {
         cursor: not-allowed;
     }
+    
+    .tooltip {
+        &.error {
+            .arrow {
+                &::before {
+                    border-top-color: red;
+                }
+            }
+            
+            .tooltip-inner {
+                background-color: red;
+            }
+        }
+    }
 }

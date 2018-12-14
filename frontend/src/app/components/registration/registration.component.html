@@ -8,14 +8,24 @@
         </div>
         <div class="registration-multiple-fields-row">
             <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login" required/>
-            <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password" required/>
+            <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password"
+                   type="password" required/>
         </div>
         <input type="email" class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"
-               [pattern]="emailPattern" required/>
+               [pattern]="emailPattern" [ngClass]="{'is-invalid': !isEmailCorrect(mailInput)}" 
+               #mailInput="ngModel" ngbTooltip="Not correct email" tooltipClass="error" 
+               (keyup)="checkIfErrorTooltipShouldToBeDisplayed(mailInput, mailTooltip, isEmailCorrect)" 
+               (focus)="checkIfErrorTooltipShouldToBeDisplayed(mailInput, mailTooltip, isEmailCorrect)" 
+               #mailTooltip="ngbTooltip" (focusout)="mailTooltip.close()" required/>
         <label class="birth-date-label" for="calendar-input">Data urodzenia</label>
         <div class="input-group">
             <input class="form-control" id="calendar-input" [owlDateTime]="dt6" placeholder="yyyy-mm-dd"
-                   [(ngModel)]="user.birthDate" name="birth-date" required>
+                   [(ngModel)]="user.birthDate" name="birth-date" #birthDateInput="ngModel" 
+                   [ngClass]="{'is-invalid': !hasBirthDateCorrectFormat(birthDateInput)}" 
+                   ngbTooltip="Date format is not correct" tooltipClass="error"
+                   (keyup)="checkIfErrorTooltipShouldToBeDisplayed(birthDateInput, dateTooltip, hasBirthDateCorrectFormat)"
+                   (focus)="checkIfErrorTooltipShouldToBeDisplayed(birthDateInput, dateTooltip, hasBirthDateCorrectFormat)"
+                   #dateTooltip="ngbTooltip" (focusout)="dateTooltip.close()" required>
             <span [owlDateTimeTrigger]="dt6"><i class="fa fa-calendar"></i></span>
             <owl-date-time [pickerType]="'calendar'" #dt6></owl-date-time>
         </div>
