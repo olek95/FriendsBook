@@ -3,7 +3,6 @@ package friendsbook.config;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +16,6 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Properties;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
 @EnableJpaRepositories(basePackages={"friendsbook.dao"})
