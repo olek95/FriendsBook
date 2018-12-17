@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user/user';
 import { Gender } from '../../models/user/gender';
-import { AuthorizationService } from '../../services/authorization.service';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgModel } from '@angular/forms';
 
