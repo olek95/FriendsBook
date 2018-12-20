@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class CorsFilter implements javax.servlet.Filter {
+public class CorsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

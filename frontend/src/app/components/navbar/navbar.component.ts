@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
 
     logIn() {
         this.authorizationService.logIn(this.name, this.password).subscribe(response => {
-            console.log(response);
+            localStorage.setItem('token', response.headers.get('Authorization'));
         }, err => {
           this.toastrService.error("Not correct credentials passed", 'Authorization Error');
         })

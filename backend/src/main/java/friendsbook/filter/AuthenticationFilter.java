@@ -1,6 +1,10 @@
 package friendsbook.filter;
 
+import friendsbook.service.TokenAuthenticationService;
+import java.io.IOException;
 import java.util.Base64;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
@@ -22,5 +26,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         setDetails(request, token);
         return this.getAuthenticationManager().authenticate(token);
     }
-
+    
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        TokenAuthenticationService.addAuthentication(response, authentication.getName());
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
+    }
 }

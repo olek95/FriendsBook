@@ -22,10 +22,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     register() {
-        console.log(this.user);
         this.authorizationService.register(this.user).subscribe(response => {
-            console.log("OK");
-            console.log(response);
         }, err => {
             this.toastrService.error(err.status === 409 ? "User already exists" : "Could not create user",
                 "Registration failed");

@@ -14,7 +14,8 @@ export class AuthorizationService {
             {
                 headers: new HttpHeaders({
                     'Authorization': 'Basic ' + btoa(name + ':' + password)
-                })
+                }),
+                observe: 'response'
             });
     }
 

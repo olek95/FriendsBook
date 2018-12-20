@@ -2,6 +2,7 @@ package friendsbook.config.security;
 
 import friendsbook.filter.AuthenticationFilter;
 import friendsbook.filter.CorsFilter;
+import friendsbook.filter.JWTAuthenticationFilter;
 import friendsbook.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider authenticationProvider;
-    Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
     
     @Autowired
     UserService userService;
@@ -46,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/account/register").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
     }
     

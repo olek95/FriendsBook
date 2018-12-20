@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class InterceptorService implements HttpInterceptor {
     constructor() { }
-    
-    intercept(req: HttpRequest<any>, next: HttpHandler):
+
+    intercept(request: HttpRequest<any>, next: HttpHandler):
          Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
-        const baseUrl = "http://localhost:8080/FriendsBook";
-        return next.handle(req.clone({
-            url: baseUrl + req.url
+        const authorization = request.headers.get('Authorization') || localStorage.getItem('token');
+        return next.handle(request.clone({
+            url: "http://localhost:8080/FriendsBook" + request.url,
+            headers: authorization ? request.headers.set('Authorization', authorization) : request.headers
         }));
     }
 }
