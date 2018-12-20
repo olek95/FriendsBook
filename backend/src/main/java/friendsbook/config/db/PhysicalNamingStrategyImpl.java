@@ -1,4 +1,4 @@
-package friendsbook.config;
+package friendsbook.config.db;
 
 import java.io.Serializable;
 import java.util.Locale;

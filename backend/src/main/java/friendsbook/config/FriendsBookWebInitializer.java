@@ -18,5 +18,4 @@ public class FriendsBookWebInitializer extends AbstractAnnotationConfigDispatche
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
-    
 }

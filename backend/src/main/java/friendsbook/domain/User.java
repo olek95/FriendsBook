@@ -5,29 +5,41 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 public class User implements Serializable {
     @Id
     private long id;
     @Column(nullable = false)
+    @Size(min=1, max=30)
+    @NotNull
     private String login;
     @Column(nullable = false)
+    @NotNull
     private String password; 
     @Column(nullable = false)
+    @Size(min=1, max=254)
+    @Email
+    @NotNull
     private String email;
     @Column(nullable = false)
+    @Size(min=1, max=30)
+    @NotNull
     private String name; 
     @Column(nullable = false)
+    @Size(min=1, max=30)
+    @NotNull
     private String surname; 
     @Column(nullable = false)
+    @NotNull
     private Date birthDate;
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Gender gender;
     
     public User() {}

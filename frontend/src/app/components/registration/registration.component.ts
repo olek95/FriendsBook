@@ -3,7 +3,6 @@ import { User } from '../../models/user/user';
 import { Gender } from '../../models/user/gender';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgModel } from '@angular/forms';
 
 @Component({
     selector: 'app-registration',
@@ -14,7 +13,6 @@ export class RegistrationComponent implements OnInit {
 
     user = new User();
     gender = Gender;
-    emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
     constructor(private authorizationService: AuthorizationService, private toastrService: ToastrService) {
         this.user.gender = Gender.FEMALE;
@@ -33,16 +31,8 @@ export class RegistrationComponent implements OnInit {
                 "Registration failed");
         })
     }
-    
-    hasBirthDateCorrectFormat(dateNgModel: NgModel) {
-        return !dateNgModel.errors || !dateNgModel.errors.owlDateTimeParse;
-    }
-    
-    isEmailCorrect(mailNgModel: NgModel) {
-        return !mailNgModel.errors || !mailNgModel.errors.pattern;
-    }
-    
-    checkIfErrorTooltipShouldToBeDisplayed(ngModel: NgModel, tooltip, validationFunction: (model: NgModel) => boolean) {
-        return validationFunction(ngModel) ? tooltip.close() : tooltip.open();
+
+    isLoginCorrect() {
+        return !this.user.login || !this.user.login.includes('@');
     }
 }

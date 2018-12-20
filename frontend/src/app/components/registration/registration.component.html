@@ -3,29 +3,27 @@
     <p>To jest i zawsze będzie darmowe!</p>
     <form (ngSubmit)="register()" #registrationForm="ngForm">
         <div class="registration-multiple-fields-row">
-            <input class="form-control" placeholder="Imię" name="name" [(ngModel)]="user.name" required/>
-            <input class="form-control right-field" placeholder="Nazwisko" name="surname" [(ngModel)]="user.surname" required/>
+            <input class="form-control" placeholder="Imię" name="name" [(ngModel)]="user.name" maxlength="30" required/>
+            <input class="form-control right-field" placeholder="Nazwisko" name="surname" [(ngModel)]="user.surname"
+                   maxlength="30" required/>
         </div>
         <div class="registration-multiple-fields-row">
-            <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login" required/>
+            <input class="form-control" placeholder="Login" name="login" [(ngModel)]="user.login" maxlength="30"
+                   #loginInput="ngModel" ngbTooltip="Character '@' is not allowed" #loginTooltip="ngbTooltip"
+                   appInputWithValidation [errors]="loginInput.errors" [tooltip]="loginTooltip"
+                   [additionalCondition]="isLoginCorrect()" required />
             <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password"
                    type="password" required/>
         </div>
         <input type="email" class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"
-               [pattern]="emailPattern" [ngClass]="{'is-invalid': !isEmailCorrect(mailInput)}" 
-               #mailInput="ngModel" ngbTooltip="Not correct email" tooltipClass="error" 
-               (keyup)="checkIfErrorTooltipShouldToBeDisplayed(mailInput, mailTooltip, isEmailCorrect)" 
-               (focus)="checkIfErrorTooltipShouldToBeDisplayed(mailInput, mailTooltip, isEmailCorrect)" 
-               #mailTooltip="ngbTooltip" (focusout)="mailTooltip.close()" required/>
+               #mailInput="ngModel" ngbTooltip="Not correct email" #mailTooltip="ngbTooltip" appInputWithValidation
+               [errors]="mailInput.errors" [tooltip]="mailTooltip" maxlength="254" required email />
         <label class="birth-date-label" for="calendar-input">Data urodzenia</label>
         <div class="input-group">
             <input class="form-control" id="calendar-input" [owlDateTime]="dt6" placeholder="yyyy-mm-dd"
-                   [(ngModel)]="user.birthDate" name="birth-date" #birthDateInput="ngModel" 
-                   [ngClass]="{'is-invalid': !hasBirthDateCorrectFormat(birthDateInput)}" 
-                   ngbTooltip="Date format is not correct" tooltipClass="error"
-                   (keyup)="checkIfErrorTooltipShouldToBeDisplayed(birthDateInput, dateTooltip, hasBirthDateCorrectFormat)"
-                   (focus)="checkIfErrorTooltipShouldToBeDisplayed(birthDateInput, dateTooltip, hasBirthDateCorrectFormat)"
-                   #dateTooltip="ngbTooltip" (focusout)="dateTooltip.close()" required>
+                   [(ngModel)]="user.birthDate" name="birth-date" #birthDateInput="ngModel"
+                   ngbTooltip="Date format is not correct" #dateTooltip="ngbTooltip" appInputWithValidation
+                   [errors]="birthDateInput.errors" [tooltip]="dateTooltip" required>
             <span [owlDateTimeTrigger]="dt6"><i class="fa fa-calendar"></i></span>
             <owl-date-time [pickerType]="'calendar'" #dt6></owl-date-time>
         </div>

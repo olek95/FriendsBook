@@ -3,43 +3,38 @@ package friendsbook.service;
 import friendsbook.dao.UserRepository;
 import friendsbook.domain.User;
 import friendsbook.domain.UserAuthorizationDetails;
-import org.apache.commons.validator.EmailValidator;
-import org.apache.commons.validator.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
-    Logger logger = LoggerFactory.getLogger(UserService.class.toString());
     private final UserRepository userRepository; 
+    private final PasswordEncoder passwordEncoder;
     
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository; 
+        this.passwordEncoder = passwordEncoder;
     }
     
     @Override
     public UserDetails loadUserByUsername(String login) {
-        logger.info("MOJ LOGIN: " + login);
         User user = userRepository.findByLogin(login); 
         return user == null ? null : new UserAuthorizationDetails(user);
     }
     
-    public UserDetails loadUserByEmail(String email) {
+    public UserDetails loadUserByEmail(@Valid @Email String email) {
         User user = userRepository.findByEmail(email); 
         return user == null ? null : new UserAuthorizationDetails(user);
     }
     
-    public User save(User user) throws ValidatorException {
-        if (EmailValidator.getInstance().isValid(user.getEmail())) {
-            return userRepository.save(user);
-        } else {
-            throw new ValidatorException();
-        }
+    public User save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 }

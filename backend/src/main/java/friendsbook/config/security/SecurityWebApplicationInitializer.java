@@ -1,4 +1,4 @@
-package friendsbook.config;
+package friendsbook.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -1,4 +1,4 @@
-package friendsbook.config;
+package friendsbook.config.db;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

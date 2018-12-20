@@ -1,7 +1,10 @@
-package friendsbook.config;
+package friendsbook.config.security;
 
 import friendsbook.filter.AuthenticationFilter;
 import friendsbook.filter.CorsFilter;
+import friendsbook.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +15,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -19,10 +24,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private final AuthenticationProvider authenticationProvider;
+    private AuthenticationProvider authenticationProvider;
+    Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
     
     @Autowired
-    public SecurityConfiguration(AuthenticationProvider authenticationProvider) {
+    UserService userService;
+    
+    @Autowired
+    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
     }
     
@@ -50,5 +59,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/account/login", HttpMethod.GET.toString()));
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

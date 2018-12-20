@@ -12,7 +12,10 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
+import { InputWithValidationDirective } from './directives/input-with-validation.directive';
+
 import { InterceptorService } from './services/interceptor/interceptor.service';
+
 
 const routes: Routes = [{path: 'login', component: NavbarComponent}]
 
@@ -20,7 +23,8 @@ const routes: Routes = [{path: 'login', component: NavbarComponent}]
     declarations: [
         AppComponent,
         NavbarComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        InputWithValidationDirective
     ],
     imports: [
         BrowserModule,
