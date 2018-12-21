@@ -13,7 +13,7 @@
                    appInputWithValidation [errors]="loginInput.errors" [tooltip]="loginTooltip"
                    [additionalCondition]="isLoginCorrect()" required />
             <input class="form-control right-field" placeholder="Hasło" name="password" [(ngModel)]="user.password"
-                   type="password" required/>
+                   type="password" maxlength="60" required/>
         </div>
         <input type="email" class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"
                #mailInput="ngModel" ngbTooltip="Not correct email" #mailTooltip="ngbTooltip" appInputWithValidation
