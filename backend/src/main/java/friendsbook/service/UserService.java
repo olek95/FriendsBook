@@ -3,6 +3,7 @@ package friendsbook.service;
 import friendsbook.dao.UserRepository;
 import friendsbook.domain.User;
 import friendsbook.domain.UserAuthorizationDetails;
+import friendsbook.exception.DuplicatedUserException;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class UserService implements UserDetailsService {
     }
     
     public User save(User user) {
+        if (loadUserByUsername(user.getLogin()) != null || loadUserByEmail(user.getEmail()) != null) {
+            throw new DuplicatedUserException();
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

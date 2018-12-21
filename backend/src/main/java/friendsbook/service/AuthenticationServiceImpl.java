@@ -25,7 +25,7 @@ public class AuthenticationServiceImpl extends AbstractUserDetailsAuthentication
         String name = authentication.getName();
         UserDetails user = name.contains("@") ? 
                 userService.loadUserByEmail(name) : userService.loadUserByUsername(name);
-        if (user == null || !passwordEncoder.matches((String)authentication.getCredentials(), user.getPassword())){
+        if (user == null || !passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())){
             throw new BadCredentialsException("Bad login/mail or password");
         }
         return user; 

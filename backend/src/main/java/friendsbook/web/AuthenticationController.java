@@ -5,9 +5,9 @@ import friendsbook.service.UserService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,12 +21,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/account/register")
-    public ResponseEntity<String> register(@Valid @RequestBody User user) {
-        if (this.userService.loadUserByUsername(user.getLogin()) != null || this.userService.loadUserByEmail(user.getEmail()) != null) {
-            return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
-        } else {
-            this.userService.save(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public void register(@Valid @RequestBody User user) {
+        this.userService.save(user);
     }
 }
