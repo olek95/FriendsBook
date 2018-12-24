@@ -2,6 +2,7 @@ package friendsbook.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -83,4 +84,32 @@ public class User implements Serializable {
     public Gender getGender() { return gender; }
     
     public void setGender(Gender gender) { this.gender = gender; }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (int) (id ^ (id >>> 32));
+        hash = 29 * hash + Objects.hashCode(login);
+        hash = 29 * hash + Objects.hashCode(password);
+        hash = 29 * hash + Objects.hashCode(email);
+        hash = 29 * hash + Objects.hashCode(name);
+        hash = 29 * hash + Objects.hashCode(surname);
+        hash = 29 * hash + Objects.hashCode(birthDate);
+        hash = 29 * hash + Objects.hashCode(gender);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User user = (User)obj;
+        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password)
+                && Objects.equals(email, user.email) && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname) && Objects.equals(birthDate, user.birthDate);
+    }
 }

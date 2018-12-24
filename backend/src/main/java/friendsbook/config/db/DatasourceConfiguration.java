@@ -56,7 +56,7 @@ public class DatasourceConfiguration {
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
         adapter.setGenerateDdl(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5InnoDBDialect");
         return adapter;
     }
     

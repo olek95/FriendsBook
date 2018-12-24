@@ -2,6 +2,7 @@ package friendsbook.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,5 +35,21 @@ public class UserAuthorizationDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
-    
+
+    @Override
+    public int hashCode() {
+        return 145 + Objects.hashCode(user);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof UserAuthorizationDetails)) {
+            return false;
+        }
+        UserAuthorizationDetails userDetails = (UserAuthorizationDetails)obj;
+        return Objects.equals(user, userDetails.user);
+    }
 }
