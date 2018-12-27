@@ -2,8 +2,8 @@ package config;
 
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.Gender;
-import friendsbook.domain.User;
 import friendsbook.service.UserService;
+import friendsbook.web.UserResource;
 import java.util.Base64;
 import java.util.Date;
 import javax.transaction.Transactional;
@@ -35,11 +35,12 @@ public class SecurityConfigurationTest {
 
     private boolean dbFilled = false;
     private MockMvc mvc;
+    private static final String AUTHORIZATION_PREFIX = "Basic";
+    private UserResource user = new UserResource();
 
     @BeforeEach
     public void setup() {
         if (!dbFilled) {
-            User user = new User();
             user.setBirthDate(new Date());
             user.setEmail("sample@mail.mail");
             user.setGender(Gender.FEMALE);
@@ -56,23 +57,55 @@ public class SecurityConfigurationTest {
     @Test
     public void testUserLoginByUsername() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
-                .header(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.getEncoder().encode("Login:Password".getBytes())));
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin(), user.getPassword()));
         mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.header().exists(HttpHeaders.AUTHORIZATION));
     }
     
     @Test
     public void testUserLoginByEmail() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
-                .header(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.getEncoder().encode("sample@mail.mail:Password".getBytes())));
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getEmail(), user.getPassword()));
         mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.header().exists(HttpHeaders.AUTHORIZATION));
+    }
+    
+    @Test
+    public void testUserLoginWithoutName() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader("", user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
+    public void testUserLoginWithoutPassword() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin(), ""));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
+    public void testUserLoginWithBadPassword() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin(), "otherPassword"));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
+    public void testUserLoginWithoutAuthorizationPrefixAndDataShorterThanPrefixLength() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, new String(Base64.getEncoder().encode("Lo".getBytes())));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
     
     @Test
     public void testCors() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.options("/account/login")
-                .header(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.getEncoder().encode("Login:Password".getBytes())))
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin(), user.getPassword()))
                 .header("Access-Control-Request-Method", "GET")
                 .header("Origin", "http://localhost:4200");
         mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    
+    private String getAuthorizationHeader(String name, String password) {
+        return AUTHORIZATION_PREFIX + " " + new String(Base64.getEncoder().encode((name + ":" + password).getBytes()));
     }
 }

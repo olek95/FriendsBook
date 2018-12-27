@@ -7,10 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserAuthorizationDetails implements UserDetails {
-    private User user;
+    private String login, password;
     
     public UserAuthorizationDetails(User user) {
-        this.user = user;
+        this.login = user.getLogin();
+        this.password = user.getPassword();
     }
 
     @Override
@@ -19,10 +20,10 @@ public class UserAuthorizationDetails implements UserDetails {
     }
 
     @Override
-    public String getPassword() { return user.getPassword(); }
+    public String getPassword() { return password; }
 
     @Override
-    public String getUsername() { return user.getLogin(); }
+    public String getUsername() { return login; }
 
     @Override
     public boolean isAccountNonExpired() { return true; }
@@ -38,7 +39,10 @@ public class UserAuthorizationDetails implements UserDetails {
 
     @Override
     public int hashCode() {
-        return 145 + Objects.hashCode(user);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(login);
+        hash = 53 * hash + Objects.hashCode(password);
+        return hash;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class UserAuthorizationDetails implements UserDetails {
         if (!(obj instanceof UserAuthorizationDetails)) {
             return false;
         }
-        UserAuthorizationDetails userDetails = (UserAuthorizationDetails)obj;
-        return Objects.equals(user, userDetails.user);
+        UserAuthorizationDetails user = (UserAuthorizationDetails) obj;
+        return Objects.equals(login, user.login) && Objects.equals(password, user.password);
     }
 }

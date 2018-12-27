@@ -15,16 +15,17 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { InputWithValidationDirective } from './directives/input-with-validation.directive';
 
 import { InterceptorService } from './services/interceptor/interceptor.service';
+import { RequiredWithTrimDirective } from './directives/required-with-trim.directive';
 
-
-const routes: Routes = [{path: 'login', component: NavbarComponent}]
+const routes: Routes = [{path: 'login', component: NavbarComponent}];
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         RegistrationComponent,
-        InputWithValidationDirective
+        InputWithValidationDirective,
+        RequiredWithTrimDirective
     ],
     imports: [
         BrowserModule,

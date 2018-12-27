@@ -1,19 +1,13 @@
 package filter;
 
 import friendsbook.config.WebConfiguration;
-import friendsbook.domain.Gender;
-import friendsbook.domain.User;
 import friendsbook.filter.JWTAuthenticationFilter;
 import friendsbook.service.TokenAuthenticationService;
-import friendsbook.service.UserService;
 import java.io.IOException;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockFilterChain;
@@ -29,26 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @WebAppConfiguration
 @Transactional
 public class JWTAuthenticationFilterTest {
-    @Autowired
-    private UserService userService;
-    
-    private boolean dbFilled;
-    
-    @BeforeEach
-    public void addSampleUser() {
-        if (!dbFilled) {
-            User user = new User();
-            user.setBirthDate(new Date());
-            user.setEmail("sample@mail.mail");
-            user.setGender(Gender.FEMALE);
-            user.setLogin("Login");
-            user.setName("Name");
-            user.setPassword("Password");
-            user.setSurname("Surname");
-            userService.save(user);
-        }
-        dbFilled = true;
-    }
     
     @Test
     public void testAuthorizedRequestPassedSuccessfully() throws IOException, ServletException {

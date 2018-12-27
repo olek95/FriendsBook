@@ -6,6 +6,7 @@ import friendsbook.domain.User;
 import friendsbook.domain.UserAuthorizationDetails;
 import friendsbook.service.AuthenticationServiceImpl;
 import friendsbook.service.UserService;
+import friendsbook.web.UserResource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.security.authentication.BadCredentialsException;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {WebConfiguration.class})
@@ -33,13 +35,35 @@ public class AuthenticationServiceTest {
     private UserService userService;
     
     private boolean dbFilled = false;
-    private User savedUser;
+    private static User testUser;
+    
+    
+    @BeforeAll
+    public static void createTestUser() {
+        testUser = new User();
+        testUser.setBirthDate(new Date());
+        testUser.setEmail("sample@mail.mail");
+        testUser.setGender(Gender.FEMALE);
+        testUser.setLogin("Login");
+        testUser.setName("Name");
+        testUser.setSurname("Surname");
+    }
     
     @BeforeEach
     public void addSampleUser() {
         if (!dbFilled) {
-            savedUser = userService.save(createUser());
+            UserResource user = new UserResource();
+            user.setBirthDate(new Date());
+            user.setEmail("sample@mail.mail");
+            user.setGender(Gender.FEMALE);
+            user.setLogin("Login");
+            user.setName("Name");
+            user.setPassword("Password");
+            user.setSurname("Surname");
+            User savedUser = userService.save(user);
             dbFilled = true;
+            testUser.setId(savedUser.getId());
+            testUser.setPassword(savedUser.getPassword());
         }
     }
     
@@ -47,11 +71,7 @@ public class AuthenticationServiceTest {
     public void testAuthenticationByLogin() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method retrieveUser = AuthenticationServiceImpl.class.getDeclaredMethod("retrieveUser", String.class, UsernamePasswordAuthenticationToken.class);
         retrieveUser.setAccessible(true);
-        User user = createUser();
-        user.setId(savedUser.getId());
-        user.setPassword(savedUser.getPassword());
-        user.setBirthDate(savedUser.getBirthDate());
-        assertEquals(new UserAuthorizationDetails(user), retrieveUser.invoke(authenticationProvider, "Login",
+        assertEquals(new UserAuthorizationDetails(testUser), retrieveUser.invoke(authenticationProvider, "Login",
                 new UsernamePasswordAuthenticationToken("Login", "Password")), "Not correct user returned");
     }
     
@@ -59,11 +79,7 @@ public class AuthenticationServiceTest {
     public void testAuthenticationByEmail() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method retrieveUser = AuthenticationServiceImpl.class.getDeclaredMethod("retrieveUser", String.class, UsernamePasswordAuthenticationToken.class);
         retrieveUser.setAccessible(true);
-        User user = createUser();
-        user.setId(savedUser.getId());
-        user.setPassword(savedUser.getPassword());
-        user.setBirthDate(savedUser.getBirthDate());
-        assertEquals(new UserAuthorizationDetails(user), retrieveUser.invoke(authenticationProvider, "sample@mail.mail",
+        assertEquals(new UserAuthorizationDetails(testUser), retrieveUser.invoke(authenticationProvider, "sample@mail.mail",
                 new UsernamePasswordAuthenticationToken("sample@mail.mail", "Password")), "Not correct user returned");
     }
     
@@ -104,17 +120,5 @@ public class AuthenticationServiceTest {
             cause = ex.getCause();
         }
         assertTrue(cause instanceof BadCredentialsException);
-    }
-    
-    private User createUser() {
-        User user = new User();
-        user.setBirthDate(new Date());
-        user.setEmail("sample@mail.mail");
-        user.setGender(Gender.FEMALE);
-        user.setLogin("Login");
-        user.setName("Name");
-        user.setPassword("Password");
-        user.setSurname("Surname");
-        return user;
     }
 }

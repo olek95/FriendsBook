@@ -17,8 +17,6 @@ export class InputWithValidationDirective implements OnInit {
     invalid: boolean;
 
     @Input()
-    additionalCondition = true;
-    @Input()
     errors;
     @Input()
     tooltip: NgbTooltip;
@@ -36,6 +34,6 @@ export class InputWithValidationDirective implements OnInit {
     }
 
     isDataCorrect() {
-        return (!this.errors || (!this.errors.owlDateTimeParse && !this.errors.email)) && this.additionalCondition;
+        return !this.errors || (!this.errors.owlDateTimeParse && !this.errors.email && !this.errors.pattern);
     }
 }

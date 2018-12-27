@@ -1,6 +1,5 @@
 package friendsbook.web;
 
-import friendsbook.domain.User;
 import friendsbook.service.UserService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/account/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@Valid @RequestBody User user) {
+    public void register(@Valid @RequestBody UserResource user) {
         this.userService.save(user);
     }
 }

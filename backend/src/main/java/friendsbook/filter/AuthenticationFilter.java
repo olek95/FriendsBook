@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -18,13 +19,19 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String encodedCredentials = authorization.substring("Basic".length()).trim();
-        byte[] decodedCredentials = Base64.getDecoder().decode(encodedCredentials);
-        String credentials = new String(decodedCredentials);
-        String[] data = credentials.split(":"); // name:password
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(data[0], data[1]);
-        setDetails(request, token);
-        return this.getAuthenticationManager().authenticate(token);
+        if (authorization != null && authorization.startsWith("Basic ")) {
+            String encodedCredentials = authorization.substring("Basic".length()).trim();
+            byte[] decodedCredentials = Base64.getDecoder().decode(encodedCredentials);
+            String credentials = new String(decodedCredentials);
+            String[] data = credentials.split(":"); // name:password
+            if (data.length == 2) {
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(data[0], data[1]);
+                setDetails(request, token);
+                return this.getAuthenticationManager().authenticate(token);
+            }
+        }
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return null;
     }
     
     @Override
