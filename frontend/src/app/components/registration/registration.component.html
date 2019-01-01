@@ -17,10 +17,10 @@
         </div>
         <input type="email" class="form-control mail" placeholder="E-mail" name="mail" [(ngModel)]="user.email"
                #mailInput="ngModel" ngbTooltip="Not correct email" #mailTooltip="ngbTooltip" appInputWithValidation
-               [errors]="mailInput.errors" [tooltip]="mailTooltip" maxlength="254" appRequiredWithTrims email />
+               [errors]="mailInput.errors" [tooltip]="mailTooltip" maxlength="254" appRequiredWithTrim email />
         <label class="birth-date-label" for="calendar-input">Data urodzenia</label>
         <div class="input-group">
-            <input class="form-control" id="calendar-input" [owlDateTime]="dt6" placeholder="yyyy-mm-dd"
+            <input class="form-control" id="calendar-input" [owlDateTime]="dt6" placeholder="dd.mm.rrrr"
                    [(ngModel)]="user.birthDate" name="birth-date" #birthDateInput="ngModel"
                    ngbTooltip="Date format is not correct" #dateTooltip="ngbTooltip" appInputWithValidation
                    [errors]="birthDateInput.errors" [tooltip]="dateTooltip" required>

@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-scss-preprocessor'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -19,6 +20,19 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true
+    },
+    files: [
+      "../node_modules/font-awesome/css/font-awesome.css",
+      {
+        pattern: '../node_modules/font-awesome/fonts/*',
+        watched: false,
+        included: false,
+        served: true,
+        nocache: false
+      }
+    ],
+    preprocessors : {
+      '../node_modules/font-awesome/scss/font-awesome.scss': [ 'scss' ]
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,

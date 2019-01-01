@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -40,6 +40,10 @@ const routes: Routes = [{path: 'login', component: NavbarComponent}];
     ],
     providers: [
         NgbTooltipConfig,
+        {
+          provide: OWL_DATE_TIME_LOCALE,
+          useValue: 'pl'
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: InterceptorService,

@@ -12,7 +12,7 @@ export class InterceptorService implements HttpInterceptor {
          Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
         const authorization = request.headers.get('Authorization') || localStorage.getItem('token');
         return next.handle(request.clone({
-            url: "http://localhost:8080/FriendsBook" + request.url,
+            url: 'http://localhost:8080/FriendsBook' + request.url,
             headers: authorization ? request.headers.set('Authorization', authorization) : request.headers
         }));
     }

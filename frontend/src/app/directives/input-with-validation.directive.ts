@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, HostBinding, Input, OnInit } from '@angular/core';
+import { Directive, HostListener, HostBinding, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Directive({
@@ -21,7 +21,7 @@ export class InputWithValidationDirective implements OnInit {
     @Input()
     tooltip: NgbTooltip;
 
-    constructor(element: ElementRef) {}
+    constructor() {}
 
 
     ngOnInit() {
