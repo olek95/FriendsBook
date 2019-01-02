@@ -22,7 +22,7 @@ public class User implements Serializable {
     private String login;
     @Column(nullable = false, length = 60)
     private String password; 
-    @Column(nullable = false, unique = true, length = 254)
+    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(254) BINARY")
     private String email;
     @Column(nullable = false, length = 30)
     private String name; 
@@ -92,8 +92,15 @@ public class User implements Serializable {
             return false;
         }
         User user = (User)obj;
-        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password)
-                && Objects.equals(email, user.email) && Objects.equals(name, user.name)
-                && Objects.equals(surname, user.surname) && Objects.equals(birthDate, user.birthDate);
+        return id == user.id && Objects.equals(login.toLowerCase(), user.login.toLowerCase()) 
+                && Objects.equals(password, user.password)
+                && Objects.equals(formatEmailDomainPartToCaseInsensitive(email), formatEmailDomainPartToCaseInsensitive(user.email))
+                && Objects.equals(name, user.name) && Objects.equals(surname, user.surname)
+                && Objects.equals(birthDate, user.birthDate);
+    }
+    
+    private String formatEmailDomainPartToCaseInsensitive(String email) {
+        String[] parts = email.split("@");
+        return parts[0] + "@" + parts[1].toLowerCase();
     }
 }

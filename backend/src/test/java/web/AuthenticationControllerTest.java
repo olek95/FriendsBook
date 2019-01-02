@@ -82,6 +82,36 @@ public class AuthenticationControllerTest {
     }
     
     @Test
+    public void testRegistrationWithUsernameWhichExistsWithWhitespaces() throws Exception {
+        testUser.setLogin("     " + testUser.getLogin() + "      ");
+        testUser.setEmail("sample1@mail.mail");
+        mvc.perform(createRegistrationRequest(testUser)).andExpect(MockMvcResultMatchers.status().isConflict());
+    }
+    
+    @Test
+    public void testRegistratinWithUsernameWithCaseInsensitive() throws Exception {
+        testUser.setLogin(testUser.getLogin().toUpperCase());
+        testUser.setEmail("sample1@mail.mail");
+        mvc.perform(createRegistrationRequest(testUser)).andExpect(MockMvcResultMatchers.status().isConflict());
+    }
+    
+    @Test
+    public void testRegistrationWithEmailWithDomainCaseInsensitive() throws Exception {
+        testUser.setLogin("Login1");
+        String[] emailParts = testUser.getEmail().split("@");
+        testUser.setEmail(emailParts[0] + "@" + emailParts[1].toUpperCase());
+        mvc.perform(createRegistrationRequest(testUser)).andExpect(MockMvcResultMatchers.status().isConflict());
+    }
+    
+    @Test
+    public void testRegistrationWithEmailWithUserCaseSensitive() throws Exception {
+        testUser.setLogin("Login1");
+        String[] emailParts = testUser.getEmail().split("@");
+        testUser.setEmail(emailParts[0].toUpperCase() + "@" + emailParts[1]);
+        mvc.perform(createRegistrationRequest(testUser)).andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+    
+    @Test
     public void testRegistrationWithNullValues() throws Exception {
         UserResource user = new UserResource(); 
         String[] expectedResultKeys = new String[] {"password", "gender", "surname", "name", "login", "birthDate", "email"};

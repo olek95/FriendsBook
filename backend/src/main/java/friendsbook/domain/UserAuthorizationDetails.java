@@ -54,6 +54,6 @@ public class UserAuthorizationDetails implements UserDetails {
             return false;
         }
         UserAuthorizationDetails user = (UserAuthorizationDetails) obj;
-        return Objects.equals(login, user.login) && Objects.equals(password, user.password);
+        return Objects.equals(login.toLowerCase(), user.login.toLowerCase()) && Objects.equals(password, user.password);
     }
 }

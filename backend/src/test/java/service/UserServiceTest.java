@@ -7,11 +7,8 @@ import friendsbook.domain.UserAuthorizationDetails;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
-import java.util.Arrays;
 import java.util.Date;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -94,6 +91,39 @@ public class UserServiceTest {
     }
     
     @Test
+    public void testRegistrationForDuplicatedUserWithUsernameCaseInsensitive() {
+        userService.save(user);
+        createTestSavedUser(); 
+        user.setLogin(user.getLogin().toUpperCase());
+        user.setEmail("newmail@mail.mail");
+        assertThrows(DuplicatedUserException.class, () -> {
+            userService.save(user);
+        });
+    }
+    
+    @Test
+    public void testRegistrationForDuplicatedUserWithEmailDomainCaseInsensitive() {
+        userService.save(user);
+        createTestSavedUser(); 
+        user.setLogin("Login1");
+        String[] emailParts = user.getEmail().split("@");
+        user.setEmail(emailParts[0] + "@" + emailParts[1].toUpperCase());
+        assertThrows(DuplicatedUserException.class, () -> {
+            userService.save(user);
+        });
+    }
+    
+    @Test 
+    public void testRegistrationForUserWithEmailUserIdCaseSensitive() {
+        userService.save(user);
+        createTestSavedUser(); 
+        user.setLogin("Login1");
+        String[] emailParts = user.getEmail().split("@");
+        user.setEmail(emailParts[0].toUpperCase() + "@" + emailParts[1]);
+        userService.save(user);
+    }
+    
+    @Test
     public void testLoadingUserByLoginWhenUserNotExists() {
         assertNull(userService.loadUserByUsername("Login"));
     }
@@ -112,10 +142,33 @@ public class UserServiceTest {
     }
     
     @Test
+    public void testLoadingUserByLoginForCaseInsensitive() {
+        User savedUser = userService.save(user); 
+        testSavedUser.setId(savedUser.getId());
+        testSavedUser.setPassword(savedUser.getPassword());
+        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByUsername(savedUser.getLogin().toUpperCase()));
+    }
+    
+    @Test
     public void testLoadingUserByEmail() {
         User savedUser = userService.save(user);
         testSavedUser.setId(savedUser.getId());
         testSavedUser.setPassword(savedUser.getPassword());
         assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByEmail(savedUser.getEmail()));
+    }
+    
+    @Test
+    public void testLoadingUserByEmailForDomainPartCaseInsensitive() {
+        User savedUser = userService.save(user);
+        testSavedUser.setId(savedUser.getId());
+        testSavedUser.setPassword(savedUser.getPassword());
+        String[] emailParts = savedUser.getEmail().split("@");
+        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByEmail(emailParts[0] + "@" + emailParts[1].toUpperCase()));
+    }
+    
+    @Test
+    public void testLoadingUserByEmailForUserIdPartCaseSensitiveWhenUserNotExists() {
+        String[] emailParts = user.getEmail().split("@");
+        assertNull(userService.loadUserByEmail(emailParts[0].toUpperCase() + "@" + emailParts[1]));
     }
 }

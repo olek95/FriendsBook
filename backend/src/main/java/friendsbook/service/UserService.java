@@ -31,14 +31,16 @@ public class UserService implements UserDetailsService {
     }
     
     public UserDetails loadUserByEmail(@Valid @Email String email) {
-        User user = userRepository.findByEmail(email); 
+        String[] emailParts = email.split("@");
+        User user = userRepository.findByEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
         return user == null ? null : new UserAuthorizationDetails(user);
     }
     
     public User save(UserResource userResource) {
         User user = new User(); 
-        user.setLogin(userResource.getLogin().trim());
-        user.setEmail(userResource.getEmail().trim());
+        user.setLogin(userResource.getLogin().trim().toLowerCase());
+        String[] emailParts = userResource.getEmail().trim().split("@");
+        user.setEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
         if (loadUserByUsername(user.getLogin()) != null || loadUserByEmail(user.getEmail()) != null) {
             throw new DuplicatedUserException();
         }

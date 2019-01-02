@@ -97,6 +97,43 @@ public class SecurityConfigurationTest {
     }
     
     @Test
+    public void testUserLoginWithWhitespacesInUsername() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader("   " + user.getLogin() + "    ", user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
+    public void testUserLoginWithWhitespacesInEmail() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader("   " + user.getEmail() + "    ", user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
+    public void testUserLoginWithCaseInsensitiveForUsername() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin().toUpperCase(), user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.header().exists(HttpHeaders.AUTHORIZATION));
+    }
+    
+    @Test
+    public void testUserLoginWithCaseInsensitiveForEmailDomain() throws Exception {
+        String[] emailParts = user.getEmail().split("@");
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(emailParts[0] + "@" + emailParts[1].toUpperCase(), user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.header().exists(HttpHeaders.AUTHORIZATION));
+    }
+    
+    @Test
+    public void testUserLoginWithCaseSensitiveForEmailUserId() throws Exception {
+        String[] emailParts = user.getEmail().split("@");
+        RequestBuilder request = MockMvcRequestBuilders.get("/account/login")
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(emailParts[0].toUpperCase() + "@" + emailParts[1], user.getPassword()));
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+    
+    @Test
     public void testCors() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.options("/account/login")
                 .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(user.getLogin(), user.getPassword()))
