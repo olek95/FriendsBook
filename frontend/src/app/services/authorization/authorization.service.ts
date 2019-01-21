@@ -22,4 +22,8 @@ export class AuthorizationService {
     public register(user: User) {
         return this.http.post('/account/register', user);
     }
+
+    public isAuthorized(): boolean {
+      return !!localStorage.getItem('token');
+    }
 }

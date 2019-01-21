@@ -4,7 +4,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Collections;
 import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,8 +19,7 @@ public class TokenAuthenticationService {
                .signWith(SignatureAlgorithm.HS512, "Secret").compact());
     }
     
-    public static Authentication getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+    public static Authentication getAuthentication(String token) {
         if (token != null) {
             String username = Jwts.parser().setSigningKey("Secret")
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))

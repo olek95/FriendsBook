@@ -5,6 +5,7 @@ import friendsbook.domain.User;
 import friendsbook.domain.UserAuthorizationDetails;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.web.UserResource;
+import java.util.List;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,9 @@ public class UserService implements UserDetailsService {
         user.setName(userResource.getName());
         user.setSurname(userResource.getSurname());
         return userRepository.save(user);
+    }
+    
+    public List<User> getChatContactsForSpecificUser(long id) {
+        return userRepository.getOne(id).getFriends();
     }
 }

@@ -8,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,8 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         Authentication authentication = null;
         try {
-            authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest)request);
+            String token = request.getParameter("token");
+            authentication = TokenAuthenticationService.getAuthentication(token == null ? ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION) : token);
         } catch(Exception ex) {
             ((HttpServletResponse)response).setStatus(HttpStatus.UNAUTHORIZED.value());
         }

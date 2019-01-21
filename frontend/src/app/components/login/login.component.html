@@ -1,0 +1,16 @@
+<form (ngSubmit)="logIn()" #loginForm="ngForm">
+    <ul class="login-form">
+      <li class="login-control">
+              <div>E-mail lub login</div>
+              <input [(ngModel)]="name" name="login" appRequiredWithTrim/>
+      </li>
+      <li class="login-control">
+              <div>Hasło</div>
+              <input type="password" [(ngModel)]="password" name="password" required/>
+              <div class="password-reminder">Nie pamiętasz hasła?</div>
+      </li>
+      <li class="login-control">
+              <button class="btn btn-primary" type="submit" [disabled]="!loginForm.form.valid">Zaloguj się</button>
+      </li>
+    </ul>
+</form>

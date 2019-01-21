@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavbarComponent } from './navbar.component';
+import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { RequiredWithTrimDirective } from '../../directives/required-with-trim.directive';
 
 describe('NavbarComponent', () => {
-  let component: NavbarComponent;
-  let fixture: ComponentFixture<NavbarComponent>;
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
   const LOGIN_INPUT_CSS = "input[name='login']";
   const PASSWORD_INPUT_CSS = "input[name='password']";
 
@@ -20,14 +20,14 @@ describe('NavbarComponent', () => {
         ToastrModule.forRoot()
       ],
       declarations: [
-        NavbarComponent,
+        LoginComponent,
         RequiredWithTrimDirective
       ]
     }).compileComponents();
   }));
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(NavbarComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     fixture.autoDetectChanges(true);

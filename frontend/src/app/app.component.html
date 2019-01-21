@@ -1,4 +1,10 @@
 <div>
-    <app-navbar></app-navbar>
-    <app-registration></app-registration>
+  <div class="navbar">
+    <div class="navbar-contents" *ngIf="!authorizationService.isAuthorized()">
+      <span class="app-title">friendsbook</span>
+      <app-login></app-login>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <app-contacts-sidebar></app-contacts-sidebar>
 </div>

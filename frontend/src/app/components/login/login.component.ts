@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class LoginComponent implements OnInit {
     name: string;
     password: string;
 
-    constructor(private authorizationService: AuthorizationService, private toastrService: ToastrService) { }
+    constructor(private authorizationService: AuthorizationService, private toastrService: ToastrService, private router: Router) { }
 
     ngOnInit() {
     }
@@ -19,8 +20,9 @@ export class NavbarComponent implements OnInit {
     logIn() {
         this.authorizationService.logIn(this.name, this.password).subscribe(response => {
             localStorage.setItem('token', response.headers.get('Authorization'));
+            this.router.navigate(['/home']);
         }, err => {
-          this.toastrService.error("Not correct credentials passed", 'Authorization Error');
+            this.toastrService.error("Not correct credentials passed", 'Authorization Error');
         })
     }
 }

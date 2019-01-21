@@ -2,14 +2,19 @@ package friendsbook.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -34,6 +39,10 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "ENUM('FEMALE', 'MALE')")
     private Gender gender;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "friendship", joinColumns = @JoinColumn(name = "friend1_id"), inverseJoinColumns = @JoinColumn(name = "friend2_id"))
+    private List<User> friends;
     
     public User() {}
     
@@ -68,6 +77,10 @@ public class User implements Serializable {
     public Gender getGender() { return gender; }
     
     public void setGender(Gender gender) { this.gender = gender; }
+    
+    public List<User> getFriends() { return friends; }
+    
+    public void setFriends(List<User> friends) { this.friends = friends; }
 
     @Override
     public int hashCode() {

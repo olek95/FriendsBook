@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { AuthorizationService } from './services/authorization/authorization.service';
 
 @Component({
     selector: 'app-root',
@@ -9,7 +10,7 @@ import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
     title = 'app';
 
-    constructor(private config: NgbTooltipConfig) {
+    constructor(private config: NgbTooltipConfig, private authorizationService: AuthorizationService) {
         this.configTooltips();
     }
 

@@ -9,23 +9,34 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
 import { InputWithValidationDirective } from './directives/input-with-validation.directive';
 
 import { InterceptorService } from './services/interceptor/interceptor.service';
 import { RequiredWithTrimDirective } from './directives/required-with-trim.directive';
+import { HomeComponent } from './components/home/home.component';
+import { ContactsSidebarComponent } from './components/contacts-sidebar/contacts-sidebar.component';
+import { ContactSidebarComponent } from './components/contacts-sidebar/contact-sidebar/contact-sidebar.component';
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
+import { stompConfig } from './configuration/stop-config';
 
-const routes: Routes = [{path: 'login', component: NavbarComponent}];
+const routes: Routes = [
+  { path: 'login', component: RegistrationComponent },
+  { path: 'home', component: HomeComponent }
+];
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent,
+        LoginComponent,
         RegistrationComponent,
         InputWithValidationDirective,
-        RequiredWithTrimDirective
+        RequiredWithTrimDirective,
+        HomeComponent,
+        ContactsSidebarComponent,
+        ContactSidebarComponent
     ],
     imports: [
         BrowserModule,
@@ -40,6 +51,7 @@ const routes: Routes = [{path: 'login', component: NavbarComponent}];
     ],
     providers: [
         NgbTooltipConfig,
+        StompService,
         {
           provide: OWL_DATE_TIME_LOCALE,
           useValue: 'pl'
@@ -48,6 +60,10 @@ const routes: Routes = [{path: 'login', component: NavbarComponent}];
             provide: HTTP_INTERCEPTORS,
             useClass: InterceptorService,
             multi: true
+        },
+        {
+          provide: StompConfig,
+          useValue: stompConfig
         }
     ],
     bootstrap: [AppComponent]

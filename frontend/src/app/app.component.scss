@@ -1,4 +1,21 @@
-app-registration {
-    float: right;
-    margin-right: 12%;
+.navbar {
+  background-color: cornflowerblue;
+  color: white;
+  min-height: 43px;
+
+  .navbar-contents {
+    width: 100%;
+
+    .app-title {
+      font-size: 47px;
+      font-weight: bold;
+      padding-left: 15%;
+      pointer-events: none;
+    }
+
+    app-login {
+      float: right;
+      padding-right: 225px;
+    }
+  }
 }

@@ -3,10 +3,8 @@ package friendsbook.config.db;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -16,24 +14,30 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Properties;
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 @EnableJpaRepositories(basePackages={"friendsbook.dao"})
 public class DatasourceConfiguration {
-    @Autowired
-    Environment environment;
     
-    private static final String ENV_DRIVER_CLASS_NAME = "jdbc.driver-class-name",
-            ENV_URL = "jdbc.url", ENV_USERNAME = "jdbc.username", 
-            ENV_PASSWORD = "jdbc.password";
+    @Value("${jdbc.driver-class-name}")
+    private String driverClassName;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String username; 
+    @Value("${jdbc.password}")
+    private String password;
+    
+    
     
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new  BasicDataSource();
-        dataSource.setDriverClassName(environment.getProperty(ENV_DRIVER_CLASS_NAME));
-        dataSource.setUrl(environment.getProperty(ENV_URL));
-        dataSource.setUsername(environment.getProperty(ENV_USERNAME));
-        dataSource.setPassword(environment.getProperty(ENV_PASSWORD));
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
     

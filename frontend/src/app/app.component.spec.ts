@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { InputWithValidationDirective } from './directives/input-with-validation.directive';
 
@@ -15,7 +15,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        NavbarComponent,
+        LoginComponent,
         RegistrationComponent,
         InputWithValidationDirective
       ],

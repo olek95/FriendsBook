@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,27 +28,22 @@ public class TokenAuthenticationServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse(); 
         TokenAuthenticationService.addAuthentication(response, "Login");
         assertTrue(response.containsHeader(HttpHeaders.AUTHORIZATION));
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(HttpHeaders.AUTHORIZATION, response.getHeader(HttpHeaders.AUTHORIZATION));
-        assertEquals(new UsernamePasswordAuthenticationToken("Login", null, new ArrayList()), TokenAuthenticationService.getAuthentication(request));
+        assertEquals(new UsernamePasswordAuthenticationToken("Login", null, new ArrayList()),
+                TokenAuthenticationService.getAuthentication(response.getHeader(HttpHeaders.AUTHORIZATION)));
     }
     
     @Test
     public void testGetAuthenticationWithBadJWTTokenConstruction() {
-        MockHttpServletRequest request = new MockHttpServletRequest(); 
-        request.addHeader(HttpHeaders.AUTHORIZATION, "TOKEN");
         assertThrows(MalformedJwtException.class, () -> {
-            TokenAuthenticationService.getAuthentication(request);
+            TokenAuthenticationService.getAuthentication("TOKEN");
         });
     }
     
     @Test
     public void testGetAuthenticationWithCorrectJWTTokenForUserWhoNotExists() {
-        MockHttpServletRequest request = new MockHttpServletRequest(); 
-        request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMb2ddbiIsImV4cCI6MTU0NjI1NzY3NX0.PM1oxNhUwPlWZYIn_ISRhnls"
-                + "zezM4npDdLNSs8eG_57H0vm9cHwjRh_w7BEvvARSN6adkYgpIWAc0Fi_QsRs3Q");
         assertThrows(SignatureException.class, () -> {
-            TokenAuthenticationService.getAuthentication(request);
+            TokenAuthenticationService.getAuthentication("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMb2ddbiIsImV4cCI6MTU0NjI1NzY3NX0.PM1oxNhUwPlWZYIn_ISRhnls"
+                + "zezM4npDdLNSs8eG_57H0vm9cHwjRh_w7BEvvARSN6adkYgpIWAc0Fi_QsRs3Q");
         });
     }
 }

@@ -23,10 +23,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserService userService;
+    
     private AuthenticationProvider authenticationProvider;
+    private CorsFilter corsFilter;
     
     @Autowired
-    UserService userService;
+    public SecurityConfiguration(CorsFilter corsFilter) { 
+        this.corsFilter = corsFilter;
+    }
     
     @Autowired
     public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
@@ -40,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
+        http.csrf().disable().addFilterBefore(corsFilter, ChannelProcessingFilter.class)
                 .authorizeRequests().antMatchers("/account/register").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
