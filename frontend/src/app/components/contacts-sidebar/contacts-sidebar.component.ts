@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { UserPreview } from '../../models/user/user-preview';
 
 @Component({
   selector: 'app-contacts-sidebar',
@@ -9,22 +11,11 @@ import { UserService } from '../../services/user/user.service';
 export class ContactsSidebarComponent implements OnInit {
   users: UserPreview[] = [];
 
-  constructor(private userService: UserService) {
-    this.users.push({
-      name: 'NAME',
-      surname: 'SURNAME'
-    },
-    {
-      name: 'NAME',
-      surname: 'SURNAME'
-    });
+  constructor(private userService: UserService, authService: AuthorizationService) {
 
-    this.userService.sendMessage();
-    this.userService.getSocketStateObservable().subscribe(state => {
-      console.log(state);
-    });
-    this.userService.getSocketDataObservable().subscribe(message => {
-      console.log(message);
+    this.userService.loadAllChatContacts(authService.getAuthenticationDetails().id)
+      .subscribe(users => {
+        this.users = users;
     });
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user/user';
+import { AuthenticationDetails } from '../../models/user/authentication-details';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,19 @@ export class AuthorizationService {
         return this.http.post('/account/register', user);
     }
 
-    public isAuthorized(): boolean {
-      return !!localStorage.getItem('token');
+    public getAuthenticationDetails(): AuthenticationDetails {
+      return <AuthenticationDetails>JSON.parse(localStorage.getItem('authenticationDetails'));
+    }
+
+    public saveAuthenticationDetails(token: string, id: number) {
+      const authenticationDetails: AuthenticationDetails = {
+        id: id,
+        token: token
+      };
+      localStorage.setItem('authenticationDetails', JSON.stringify(authenticationDetails));
+    }
+
+    public isSigned(): boolean {
+      return !!localStorage.getItem('authenticationDetails');
     }
 }

@@ -1,9 +1,12 @@
 package friendsbook.service;
 
+import friendsbook.domain.UserAuthentication;
+import friendsbook.domain.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +32,13 @@ public class AuthenticationServiceImpl extends AbstractUserDetailsAuthentication
             throw new BadCredentialsException("Bad login/mail or password");
         }
         return user; 
+    }
+    
+    @Override
+    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
+        super.createSuccessAuthentication(principal, authentication, user);
+        ((UserAuthentication)authentication).setId(((UserDetailsImpl)user).getId());
+        return authentication;
     }
 
     @Override

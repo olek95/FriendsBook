@@ -3,7 +3,7 @@ package service;
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.Gender;
 import friendsbook.domain.User;
-import friendsbook.domain.UserAuthorizationDetails;
+import friendsbook.domain.UserDetailsImpl;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
@@ -138,7 +138,7 @@ public class UserServiceTest {
         User savedUser = userService.save(user); 
         testSavedUser.setId(savedUser.getId());
         testSavedUser.setPassword(savedUser.getPassword());
-        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByUsername(savedUser.getLogin()));
+        assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByUsername(savedUser.getLogin()));
     }
     
     @Test
@@ -146,7 +146,7 @@ public class UserServiceTest {
         User savedUser = userService.save(user); 
         testSavedUser.setId(savedUser.getId());
         testSavedUser.setPassword(savedUser.getPassword());
-        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByUsername(savedUser.getLogin().toUpperCase()));
+        assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByUsername(savedUser.getLogin().toUpperCase()));
     }
     
     @Test
@@ -154,7 +154,7 @@ public class UserServiceTest {
         User savedUser = userService.save(user);
         testSavedUser.setId(savedUser.getId());
         testSavedUser.setPassword(savedUser.getPassword());
-        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByEmail(savedUser.getEmail()));
+        assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByEmail(savedUser.getEmail()));
     }
     
     @Test
@@ -163,7 +163,7 @@ public class UserServiceTest {
         testSavedUser.setId(savedUser.getId());
         testSavedUser.setPassword(savedUser.getPassword());
         String[] emailParts = savedUser.getEmail().split("@");
-        assertEquals(new UserAuthorizationDetails(testSavedUser), userService.loadUserByEmail(emailParts[0] + "@" + emailParts[1].toUpperCase()));
+        assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByEmail(emailParts[0] + "@" + emailParts[1].toUpperCase()));
     }
     
     @Test

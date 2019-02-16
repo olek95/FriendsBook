@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { RegistrationComponent } from './registration.component';
 import { InputWithValidationDirective } from '../../directives/input-with-validation.directive';
 import { RequiredWithTrimDirective } from '../../directives/required-with-trim.directive';
@@ -22,7 +22,7 @@ describe('RegistrationComponent', () => {
               NgbTooltipModule,
               ToastrModule.forRoot(),
               OwlDateTimeModule,
-              HttpClientModule,
+              HttpClientTestingModule,
               OwlNativeDateTimeModule,
               BrowserAnimationsModule
             ],

@@ -16,6 +16,10 @@ describe('ContactSidebarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactSidebarComponent);
     component = fixture.componentInstance;
+    component.user = {
+      name: 'name',
+      surname: 'surname'
+    };
     fixture.detectChanges();
   });
 

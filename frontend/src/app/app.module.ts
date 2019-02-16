@@ -21,10 +21,12 @@ import { ContactsSidebarComponent } from './components/contacts-sidebar/contacts
 import { ContactSidebarComponent } from './components/contacts-sidebar/contact-sidebar/contact-sidebar.component';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { stompConfig } from './configuration/stop-config';
+import { AuthorizedAccessGuard } from './services/guards/authorized-access-guard.service';
+import { NotAuthorizedAccessGuard } from './services/guards/not-authorized-access-guard.service';
 
 const routes: Routes = [
-  { path: 'login', component: RegistrationComponent },
-  { path: 'home', component: HomeComponent }
+  { path: '', component: RegistrationComponent, canActivate: [ NotAuthorizedAccessGuard ] },
+  { path: 'home', component: HomeComponent, canActivate: [ AuthorizedAccessGuard ] }
 ];
 
 @NgModule({
@@ -52,6 +54,8 @@ const routes: Routes = [
     providers: [
         NgbTooltipConfig,
         StompService,
+        AuthorizedAccessGuard,
+        NotAuthorizedAccessGuard,
         {
           provide: OWL_DATE_TIME_LOCALE,
           useValue: 'pl'

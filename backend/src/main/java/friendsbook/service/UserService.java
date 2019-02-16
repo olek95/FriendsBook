@@ -2,7 +2,7 @@ package friendsbook.service;
 
 import friendsbook.dao.UserRepository;
 import friendsbook.domain.User;
-import friendsbook.domain.UserAuthorizationDetails;
+import friendsbook.domain.UserDetailsImpl;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.web.UserResource;
 import java.util.List;
@@ -28,13 +28,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByLogin(login); 
-        return user == null ? null : new UserAuthorizationDetails(user);
+        return user == null ? null : new UserDetailsImpl(user);
     }
     
     public UserDetails loadUserByEmail(@Valid @Email String email) {
         String[] emailParts = email.split("@");
         User user = userRepository.findByEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
-        return user == null ? null : new UserAuthorizationDetails(user);
+        return user == null ? null : new UserDetailsImpl(user);
     }
     
     public User save(UserResource userResource) {
@@ -54,6 +54,6 @@ public class UserService implements UserDetailsService {
     }
     
     public List<User> getChatContactsForSpecificUser(long id) {
-        return userRepository.getOne(id).getFriends();
+        return userRepository.findById(id).get().getFriends();
     }
 }

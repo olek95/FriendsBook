@@ -1,10 +1,10 @@
 <div>
   <div class="navbar">
-    <div class="navbar-contents" *ngIf="!authorizationService.isAuthorized()">
+    <div class="navbar-contents" *ngIf="!authorizationService.isSigned()">
       <span class="app-title">friendsbook</span>
       <app-login></app-login>
     </div>
   </div>
   <router-outlet></router-outlet>
-  <app-contacts-sidebar></app-contacts-sidebar>
+  <app-contacts-sidebar *ngIf="authorizationService.isSigned()"></app-contacts-sidebar>
 </div>

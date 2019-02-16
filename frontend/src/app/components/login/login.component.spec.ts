@@ -1,12 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
-import { RequiredWithTrimDirective } from '../../directives/required-with-trim.directive';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('NavbarComponent', () => {
+import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './login.component';
+import { RequiredWithTrimDirective } from '../../directives/required-with-trim.directive';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
+
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   const LOGIN_INPUT_CSS = "input[name='login']";
@@ -16,12 +18,16 @@ describe('NavbarComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
         ToastrModule.forRoot()
       ],
       declarations: [
         LoginComponent,
         RequiredWithTrimDirective
+      ],
+      providers: [
+        AuthorizationService
       ]
     }).compileComponents();
   }));

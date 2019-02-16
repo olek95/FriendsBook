@@ -29,9 +29,13 @@ public class ChatContactsController {
         ChatContactResource[] contacts = new ChatContactResource[contactsNumber];
         for (int i = 0; i < contactsNumber; i++) {
             ChatContactResource contact = new ChatContactResource();
-            //contacts[i] = users.get(i);
+            User user = users.get(i);
+            contact.setId(user.getId());
+            contact.setName(user.getName());
+            contact.setSurname(user.getSurname());
+            contacts[i] = contact;
         }
-        return null;
+        return contacts;
     }
     
     @MessageMapping("/hello")

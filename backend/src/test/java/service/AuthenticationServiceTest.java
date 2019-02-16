@@ -3,7 +3,7 @@ package service;
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.Gender;
 import friendsbook.domain.User;
-import friendsbook.domain.UserAuthorizationDetails;
+import friendsbook.domain.UserDetailsImpl;
 import friendsbook.service.AuthenticationServiceImpl;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
@@ -71,7 +71,7 @@ public class AuthenticationServiceTest {
     public void testAuthenticationByLogin() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method retrieveUser = AuthenticationServiceImpl.class.getDeclaredMethod("retrieveUser", String.class, UsernamePasswordAuthenticationToken.class);
         retrieveUser.setAccessible(true);
-        assertEquals(new UserAuthorizationDetails(testUser), retrieveUser.invoke(authenticationProvider, "Login",
+        assertEquals(new UserDetailsImpl(testUser), retrieveUser.invoke(authenticationProvider, "Login",
                 new UsernamePasswordAuthenticationToken("Login", "Password")), "Not correct user returned");
     }
     
@@ -79,7 +79,7 @@ public class AuthenticationServiceTest {
     public void testAuthenticationByEmail() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method retrieveUser = AuthenticationServiceImpl.class.getDeclaredMethod("retrieveUser", String.class, UsernamePasswordAuthenticationToken.class);
         retrieveUser.setAccessible(true);
-        assertEquals(new UserAuthorizationDetails(testUser), retrieveUser.invoke(authenticationProvider, "sample@mail.mail",
+        assertEquals(new UserDetailsImpl(testUser), retrieveUser.invoke(authenticationProvider, "sample@mail.mail",
                 new UsernamePasswordAuthenticationToken("sample@mail.mail", "Password")), "Not correct user returned");
     }
     

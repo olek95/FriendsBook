@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserPreview } from '../../../models/user/user-preview';
 
 @Component({
   selector: 'app-contact-sidebar',
