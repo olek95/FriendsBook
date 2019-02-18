@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { UserPreview } from '../../../models/user/user-preview';
 
 @Component({
@@ -9,11 +10,17 @@ import { UserPreview } from '../../../models/user/user-preview';
 export class ContactSidebarComponent implements OnInit {
   @Input()
   user: UserPreview;
+  @Output()
+  onContactSelection = new EventEmitter();
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  selectContact() {
+    this.onContactSelection.emit(this.user);
   }
 
 }

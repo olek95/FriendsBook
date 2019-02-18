@@ -1,0 +1,14 @@
+<div>
+  <div class="header">
+    <span class="profile-picture"></span>
+    <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
+  </div>
+  <div class="conversation">
+    <div *ngFor="let message of messages" class="message">{{message.content}}</div>
+  </div>
+  <div>
+    <form (ngSubmit)="sendMessage(message.value)">
+      <input #message class="form-control" placeholder="Wpisz wiadomość..."/>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AuthorizationService } from './services/authorization/authorization.service';
+import { UserPreview } from './models/user/user-preview';
 
 @Component({
     selector: 'app-root',
@@ -8,7 +10,7 @@ import { AuthorizationService } from './services/authorization/authorization.ser
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'app';
+    selectedContacts: UserPreview[] = [];
 
     constructor(private config: NgbTooltipConfig, private authorizationService: AuthorizationService) {
         this.configTooltips();
@@ -17,5 +19,9 @@ export class AppComponent {
     configTooltips() {
         this.config.triggers = 'manual';
         this.config.autoClose = false;
+    }
+
+    changeSelectedContact(selectedContact: UserPreview) {
+      this.selectedContacts.push(selectedContact);
     }
 }

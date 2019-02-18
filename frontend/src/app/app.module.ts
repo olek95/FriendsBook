@@ -3,26 +3,26 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
-
 import { InputWithValidationDirective } from './directives/input-with-validation.directive';
-
 import { InterceptorService } from './services/interceptor/interceptor.service';
 import { RequiredWithTrimDirective } from './directives/required-with-trim.directive';
 import { HomeComponent } from './components/home/home.component';
 import { ContactsSidebarComponent } from './components/contacts-sidebar/contacts-sidebar.component';
 import { ContactSidebarComponent } from './components/contacts-sidebar/contact-sidebar/contact-sidebar.component';
-import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { stompConfig } from './configuration/stop-config';
 import { AuthorizedAccessGuard } from './services/guards/authorized-access-guard.service';
 import { NotAuthorizedAccessGuard } from './services/guards/not-authorized-access-guard.service';
+import { ChatComponent } from './components/chats-list/chat/chat.component';
+import { ChatsListComponent } from './components/chats-list/chats-list.component';
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent, canActivate: [ NotAuthorizedAccessGuard ] },
@@ -38,7 +38,9 @@ const routes: Routes = [
         RequiredWithTrimDirective,
         HomeComponent,
         ContactsSidebarComponent,
-        ContactSidebarComponent
+        ContactSidebarComponent,
+        ChatComponent,
+        ChatsListComponent
     ],
     imports: [
         BrowserModule,

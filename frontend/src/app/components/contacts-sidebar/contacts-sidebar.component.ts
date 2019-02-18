@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+
 import { UserService } from '../../services/user/user.service';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { UserPreview } from '../../models/user/user-preview';
@@ -9,6 +10,9 @@ import { UserPreview } from '../../models/user/user-preview';
   styleUrls: ['./contacts-sidebar.component.scss']
 })
 export class ContactsSidebarComponent implements OnInit {
+  @Output()
+  onContactSelection = new EventEmitter();
+
   users: UserPreview[] = [];
 
   constructor(private userService: UserService, authService: AuthorizationService) {
@@ -20,6 +24,11 @@ export class ContactsSidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  selectContact(selectedContact: UserPreview) {
+    console.log(selectedContact);
+    this.onContactSelection.emit(selectedContact);
   }
 
 }
