@@ -44,6 +44,9 @@ public class User implements Serializable {
     @JoinTable(name = "friendship", joinColumns = @JoinColumn(name = "friend1_id"), inverseJoinColumns = @JoinColumn(name = "friend2_id"))
     private List<User> friends;
     
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "friends")
+    private List<User> friendsOf;
+    
     public User() {}
     
     public long getId() { return id; }
@@ -81,6 +84,10 @@ public class User implements Serializable {
     public List<User> getFriends() { return friends; }
     
     public void setFriends(List<User> friends) { this.friends = friends; }
+    
+    public List<User> getFriendsOf() { return friendsOf; }
+    
+    public void setFriendsOf(List<User> friendsOf) { this.friendsOf = friendsOf; }
 
     @Override
     public int hashCode() {

@@ -54,6 +54,9 @@ public class UserService implements UserDetailsService {
     }
     
     public List<User> getChatContactsForSpecificUser(long id) {
-        return userRepository.findById(id).get().getFriends();
+        User user = userRepository.findById(id).get();
+        List<User> friends = user.getFriends();
+        friends.addAll(user.getFriendsOf());
+        return friends;
     }
 }
