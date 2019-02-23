@@ -1,6 +1,6 @@
 package friendsbook.web;
 
-import friendsbook.domain.User;
+import friendsbook.domain.user.User;
 import friendsbook.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

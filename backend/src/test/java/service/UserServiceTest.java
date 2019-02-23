@@ -1,9 +1,9 @@
 package service;
 
 import friendsbook.config.WebConfiguration;
-import friendsbook.domain.Gender;
-import friendsbook.domain.User;
-import friendsbook.domain.UserDetailsImpl;
+import friendsbook.domain.user.Gender;
+import friendsbook.domain.user.User;
+import friendsbook.model.UserDetailsImpl;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;

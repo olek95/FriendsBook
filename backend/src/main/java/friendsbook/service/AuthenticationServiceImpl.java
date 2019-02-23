@@ -1,7 +1,7 @@
 package friendsbook.service;
 
-import friendsbook.domain.UserAuthentication;
-import friendsbook.domain.UserDetailsImpl;
+import friendsbook.model.UserAuthentication;
+import friendsbook.model.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

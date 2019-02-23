@@ -1,7 +1,7 @@
 package friendsbook.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import friendsbook.domain.UserAuthentication;
+import friendsbook.model.UserAuthentication;
 import friendsbook.service.TokenAuthenticationService;
 import java.io.IOException;
 import java.util.Base64;

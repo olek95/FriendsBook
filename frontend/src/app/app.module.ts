@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { StompConfig, StompService } from '@stomp/ng2-stompjs';
+import { RxStompService } from '@stomp/ng2-stompjs';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -18,7 +18,6 @@ import { RequiredWithTrimDirective } from './directives/required-with-trim.direc
 import { HomeComponent } from './components/home/home.component';
 import { ContactsSidebarComponent } from './components/contacts-sidebar/contacts-sidebar.component';
 import { ContactSidebarComponent } from './components/contacts-sidebar/contact-sidebar/contact-sidebar.component';
-import { stompConfig } from './configuration/stop-config';
 import { AuthorizedAccessGuard } from './services/guards/authorized-access-guard.service';
 import { NotAuthorizedAccessGuard } from './services/guards/not-authorized-access-guard.service';
 import { ChatComponent } from './components/chats-list/chat/chat.component';
@@ -55,9 +54,9 @@ const routes: Routes = [
     ],
     providers: [
         NgbTooltipConfig,
-        StompService,
         AuthorizedAccessGuard,
         NotAuthorizedAccessGuard,
+        RxStompService,
         {
           provide: OWL_DATE_TIME_LOCALE,
           useValue: 'pl'
@@ -66,10 +65,6 @@ const routes: Routes = [
             provide: HTTP_INTERCEPTORS,
             useClass: InterceptorService,
             multi: true
-        },
-        {
-          provide: StompConfig,
-          useValue: stompConfig
         }
     ],
     bootstrap: [AppComponent]

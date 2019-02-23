@@ -1,7 +1,7 @@
 package config;
 
 import friendsbook.config.WebConfiguration;
-import friendsbook.domain.Gender;
+import friendsbook.domain.user.Gender;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
 import java.util.Base64;

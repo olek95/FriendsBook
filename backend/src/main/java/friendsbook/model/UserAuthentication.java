@@ -1,4 +1,4 @@
-package friendsbook.domain;
+package friendsbook.model;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

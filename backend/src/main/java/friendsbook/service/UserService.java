@@ -1,8 +1,8 @@
 package friendsbook.service;
 
 import friendsbook.dao.UserRepository;
-import friendsbook.domain.User;
-import friendsbook.domain.UserDetailsImpl;
+import friendsbook.domain.user.User;
+import friendsbook.model.UserDetailsImpl;
 import friendsbook.exception.DuplicatedUserException;
 import friendsbook.web.UserResource;
 import java.util.List;
@@ -35,6 +35,10 @@ public class UserService implements UserDetailsService {
         String[] emailParts = email.split("@");
         User user = userRepository.findByEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
         return user == null ? null : new UserDetailsImpl(user);
+    }
+    
+    public User getUser(long id) {
+        return userRepository.findById(id).get();
     }
     
     public User save(UserResource userResource) {

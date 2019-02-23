@@ -1,4 +1,4 @@
-package friendsbook.domain;
+package friendsbook.model;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -8,7 +8,7 @@ public class UserDetailsImpl extends User {
     
     private long id;
     
-    public UserDetailsImpl(friendsbook.domain.User user) {
+    public UserDetailsImpl(friendsbook.domain.user.User user) {
         super(user.getLogin(), user.getPassword(), new ArrayList());
         id = user.getId();
     }

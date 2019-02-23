@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { UserService } from './user.service';
-import { stompConfig } from '../../configuration/stop-config';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { stompConfig } from '../../configuration/stomp-config';
 
 describe('UserService', () => {
   beforeEach(() => TestBed.configureTestingModule({

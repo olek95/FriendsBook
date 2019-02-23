@@ -1,6 +1,6 @@
 package friendsbook.web;
 
-import friendsbook.domain.Gender;
+import friendsbook.domain.user.Gender;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

@@ -6,7 +6,7 @@ import { inject } from '@angular/core/testing';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { ContactsSidebarComponent } from './contacts-sidebar.component';
 import { ContactSidebarComponent } from './contact-sidebar/contact-sidebar.component';
-import { stompConfig } from '../../configuration/stop-config';
+import { stompConfig } from '../../configuration/stomp-config';
 
 describe('ContactsSidebarComponent', () => {
   let component: ContactsSidebarComponent;
