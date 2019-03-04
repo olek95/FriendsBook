@@ -2,22 +2,23 @@ import { Injectable } from '@angular/core';
 
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '../../models/message/message';
+import { AuthorizationService } from '../authorization/authorization.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
 
-  constructor(private stompService: RxStompService) { }
+  constructor(private stompService: RxStompService, private authorizationService: AuthorizationService) { }
 
-  sendMessage(message: Message) {
+  sendMessage(message: Message, recipientName: string) {
     this.stompService.publish({
-      destination: '/app/message',
+      destination: `/app/message/${recipientName}`,
       body: JSON.stringify(message)
     });
   }
 
-  getMessage(onMessageReceiving: (message: string) => void) {
-    return this.stompService.stompClient.subscribe('/topic/message', message => { onMessageReceiving(message.body)});
+  startListeningForMessage() {
+    return this.stompService.watch(`/user/${this.authorizationService.getAuthenticationDetails().login}/queue/message`);
   }
 }

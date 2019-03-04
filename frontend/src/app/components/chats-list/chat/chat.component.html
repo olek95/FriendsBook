@@ -4,7 +4,11 @@
     <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
   </div>
   <div class="conversation">
-    <div *ngFor="let message of messages" class="message">{{message.content}}</div>
+    <div *ngFor="let message of messages" class="message"
+         [ngClass]="{'received-message': message.senderId === contact.id, 'sent-message': message.senderId !== contact.id}">
+      <span class="profile-picture" *ngIf="message.senderId === contact.id && message.content === 'last'"></span>
+      <span class="content">{{message.content}}</span>
+    </div>
   </div>
   <div>
     <form (ngSubmit)="sendMessage(message.value)">

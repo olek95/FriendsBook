@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     logIn() {
         this.authorizationService.logIn(this.name, this.password).subscribe((response: any) => {
           const token = response.headers.get('Authorization');
-          this.authorizationService.saveAuthenticationDetails(token, response.body.id);
+          this.authorizationService.saveAuthenticationDetails(token, response.body.id, this.name);
           this.connectWebsocket(token);
           this.router.navigate(['/home']);
         }, err => {

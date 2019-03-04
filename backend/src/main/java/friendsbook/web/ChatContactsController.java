@@ -33,6 +33,7 @@ public class ChatContactsController {
             contact.setId(user.getId());
             contact.setName(user.getName());
             contact.setSurname(user.getSurname());
+            contact.setLogin(user.getLogin());
             contacts[i] = contact;
         }
         return contacts;

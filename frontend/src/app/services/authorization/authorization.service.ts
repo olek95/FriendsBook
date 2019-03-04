@@ -28,10 +28,11 @@ export class AuthorizationService {
       return <AuthenticationDetails>JSON.parse(localStorage.getItem('authenticationDetails'));
     }
 
-    public saveAuthenticationDetails(token: string, id: number) {
+    public saveAuthenticationDetails(token: string, id: number, login: string) {
       const authenticationDetails: AuthenticationDetails = {
         id: id,
-        token: token
+        token: token,
+        login: login
       };
       localStorage.setItem('authenticationDetails', JSON.stringify(authenticationDetails));
     }

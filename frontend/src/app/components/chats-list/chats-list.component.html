@@ -1,1 +1,1 @@
-<app-chat *ngFor="let contact of contacts" [contact]="contact"></app-chat>
+<app-chat *ngFor="let contact of contacts" [contact]="contact" [messages]="messages.get(contact.id)"></app-chat>

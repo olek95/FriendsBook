@@ -6,6 +6,6 @@
     </div>
   </div>
   <router-outlet></router-outlet>
-  <app-chats-list [contacts]="selectedContacts"></app-chats-list>
+  <app-chats-list *ngIf="authorizationService.isSigned()" [contacts]="selectedContacts"></app-chats-list>
   <app-contacts-sidebar *ngIf="authorizationService.isSigned()" (onContactSelection)="changeSelectedContact($event)"></app-contacts-sidebar>
 </div>

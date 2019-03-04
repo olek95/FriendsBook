@@ -13,12 +13,15 @@ import { MessageService } from '../../../services/message/message.service';
 export class ChatComponent implements OnInit {
   @Input()
   contact: UserPreview;
-
-  messages: Message[] = [];
+  @Input()
+  messages: Message[];
 
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) { }
 
   ngOnInit() {
+    if (!this.messages) {
+      this.messages = [];
+    }
   }
 
   sendMessage(content) {
@@ -27,18 +30,7 @@ export class ChatComponent implements OnInit {
       senderId: this.authorizationService.getAuthenticationDetails().id,
       recipientId: this.contact.id
     };
-    this.messageService.sendMessage(message);
-    this.messageService.getMessage(message => this.onMessageReceiving(message));
-    //this.messages.push(message);
-  }
-
-  onMessageReceiving(content: string) {
-    const message = {
-      content: content,
-      senderId: 0,
-      recipientId: 0
-    };
+    this.messageService.sendMessage(message, this.contact.login);
     this.messages.push(message);
   }
-
 }
