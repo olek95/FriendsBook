@@ -13,7 +13,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  loadAllChatContacts(userId: number): Observable<UserPreview[]>{
-    return this.http.get<UserPreview[]>('/chat-contacts', {params: {'userId': userId + ''}});
+  loadAllChatContacts(): Observable<UserPreview[]>{
+    return this.http.get<UserPreview[]>('/chat-contacts');
   }
 }

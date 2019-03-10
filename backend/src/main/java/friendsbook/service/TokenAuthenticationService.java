@@ -1,12 +1,11 @@
 package friendsbook.service;
 
+import friendsbook.model.UserAuthentication;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Collections;
 import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 public class TokenAuthenticationService {
@@ -24,7 +23,7 @@ public class TokenAuthenticationService {
             String username = Jwts.parser().setSigningKey("Secret")
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody().getSubject();
-            return username != null ? new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList())
+            return username != null ? new UserAuthentication(username, null)
                     : null;
         }
         return null;

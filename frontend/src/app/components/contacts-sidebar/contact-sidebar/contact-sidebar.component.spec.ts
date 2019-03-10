@@ -18,7 +18,9 @@ describe('ContactSidebarComponent', () => {
     component = fixture.componentInstance;
     component.user = {
       name: 'name',
-      surname: 'surname'
+      surname: 'surname',
+      id: 1,
+      login: 'login'
     };
     fixture.detectChanges();
   });

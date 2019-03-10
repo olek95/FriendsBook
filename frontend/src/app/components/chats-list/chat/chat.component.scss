@@ -59,13 +59,13 @@
 
       &.received-message {
         display: flex;
+        clear: right;
 
         .content {
           margin-bottom: 1%;
           background-color: rgb(241, 240, 240);
           max-width: 149px;
           display: inline-block;
-          margin-left: 5%;
           position: relative;
         }
       }

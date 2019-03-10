@@ -28,9 +28,8 @@ export class AuthorizationService {
       return <AuthenticationDetails>JSON.parse(localStorage.getItem('authenticationDetails'));
     }
 
-    public saveAuthenticationDetails(token: string, id: number, login: string) {
+    public saveAuthenticationDetails(token: string, login: string) {
       const authenticationDetails: AuthenticationDetails = {
-        id: id,
         token: token,
         login: login
       };

@@ -12,7 +12,7 @@ export class ChatsListComponent implements OnInit {
   @Input()
   contacts: UserPreview[];
 
-  messages = new Map<number, Message[]>();
+  conversations = new Map<number, Message[]>();
 
   constructor(private messageService: MessageService) {
   }
@@ -24,9 +24,13 @@ export class ChatsListComponent implements OnInit {
   }
 
   onMessageReceiving(message: Message) {
-    if (!this.messages.has(message.senderId)) {
-      this.messages.set(message.senderId, []);
+    if (!this.conversations.has(message.senderId)) {
+      this.conversations.set(message.senderId, []);
     }
-    this.messages.get(message.senderId).push(message);
+    this.conversations.get(message.senderId).push(message);
+  }
+
+  addConversation(conversation: {recipientId: number, messages: Message[]}) {
+    this.conversations.set(conversation.recipientId, conversation.messages);
   }
 }

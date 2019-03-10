@@ -1,14 +1,15 @@
 package friendsbook.web;
 
 import friendsbook.domain.user.User;
+import friendsbook.model.UserAuthentication;
 import friendsbook.service.UserService;
+import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +24,8 @@ public class ChatContactsController {
     private SimpMessagingTemplate t;
     
     @GetMapping("/chat-contacts")
-    public ChatContactResource[] getAllChatContacts(@RequestParam long userId) {
-        List<User> users = userService.getChatContactsForSpecificUser(userId);
+    public ChatContactResource[] getAllChatContacts(Principal principal) {
+        List<User> users = userService.getChatContactsForSpecificUser(((UserAuthentication)principal).getId());
         int contactsNumber = users.size();
         ChatContactResource[] contacts = new ChatContactResource[contactsNumber];
         for (int i = 0; i < contactsNumber; i++) {

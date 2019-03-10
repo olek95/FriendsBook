@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import { UserService } from '../../services/user/user.service';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { UserPreview } from '../../models/user/user-preview';
 
 @Component({
@@ -15,10 +14,9 @@ export class ContactsSidebarComponent implements OnInit {
 
   users: UserPreview[] = [];
 
-  constructor(private userService: UserService, authService: AuthorizationService) {
+  constructor(private userService: UserService) {
 
-    this.userService.loadAllChatContacts(authService.getAuthenticationDetails().id)
-      .subscribe(users => {
+    this.userService.loadAllChatContacts().subscribe(users => {
         this.users = users;
     });
   }
@@ -27,7 +25,6 @@ export class ContactsSidebarComponent implements OnInit {
   }
 
   selectContact(selectedContact: UserPreview) {
-    console.log(selectedContact);
     this.onContactSelection.emit(selectedContact);
   }
 

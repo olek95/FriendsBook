@@ -1,1 +1,2 @@
-<app-chat *ngFor="let contact of contacts" [contact]="contact" [messages]="messages.get(contact.id)"></app-chat>
+<app-chat *ngFor="let contact of contacts" [contact]="contact" [messages]="conversations.get(contact.id)"
+          (onConversationLoaded)="addConversation($event)"></app-chat>

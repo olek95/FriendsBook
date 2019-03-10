@@ -1,10 +1,10 @@
 package service;
 
 import friendsbook.config.WebConfiguration;
+import friendsbook.model.UserAuthentication;
 import friendsbook.service.TokenAuthenticationService;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
-import java.util.ArrayList;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +27,7 @@ public class TokenAuthenticationServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse(); 
         TokenAuthenticationService.addAuthentication(response, "Login");
         assertTrue(response.containsHeader(HttpHeaders.AUTHORIZATION));
-        assertEquals(new UsernamePasswordAuthenticationToken("Login", null, new ArrayList()),
+        assertEquals(new UserAuthentication("Login", null),
                 TokenAuthenticationService.getAuthentication(response.getHeader(HttpHeaders.AUTHORIZATION)));
     }
     

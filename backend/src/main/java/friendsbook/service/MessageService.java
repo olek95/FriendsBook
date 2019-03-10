@@ -3,6 +3,7 @@ package friendsbook.service;
 import friendsbook.dao.MessageRepository;
 import friendsbook.domain.conversation.Message;
 import friendsbook.web.MessageResource;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,9 @@ public class MessageService {
         message.setSender(userService.getUser(messageResource.getSenderId()));
         message.setRecipient(userService.getUser(messageResource.getRecipientId()));
         messageRepository.save(message);
+    }
+    
+    public List<Message> getConversationWithUser(long userId, long correspondentId) {
+        return this.messageRepository.findConversation(userId, correspondentId);
     }
 }

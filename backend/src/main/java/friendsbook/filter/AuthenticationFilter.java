@@ -1,12 +1,9 @@
 package friendsbook.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import friendsbook.model.UserAuthentication;
 import friendsbook.service.TokenAuthenticationService;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +40,5 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             FilterChain chain, Authentication authentication) throws IOException, ServletException {
         TokenAuthenticationService.addAuthentication(response, authentication.getName());
         response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
-        Map<String, Long> json = new HashMap<>();
-        json.put("id", ((UserAuthentication)authentication).getId());
-        response.getWriter().write(new ObjectMapper().writeValueAsString(json));
     }
 }
