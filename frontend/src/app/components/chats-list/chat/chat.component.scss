@@ -6,6 +6,18 @@
   border-top-right-radius: 4%;
   box-shadow: 1px -1px lightgrey, -1px -1px lightgrey;
 
+  .active {
+    .header {
+      .close-button {
+        opacity: 1;
+
+        &:before, &:after {
+          background-color: rgb(0, 132, 255);
+        }
+      }
+    }
+  }
+
   .profile-picture {
     height: 32px;
     width: 32px;
@@ -29,6 +41,41 @@
       left: 15px;
       user-select: none;
       font-weight: bold;
+    }
+
+    .close-button {
+      height: 25px;
+      width: 25px;
+      opacity: 0.3;
+      position: relative;
+      float: right;
+      right: 7%;
+      top: 10px;
+      cursor: pointer;
+
+      &:before, &:after {
+        position: absolute;
+        left: 11px;
+        top: 2px;
+        content: ' ';
+        height: 20px;
+        width: 2px;
+        background-color: #333;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+
+    &:hover {
+      background-color: rgb(242, 243, 245);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
   }
 

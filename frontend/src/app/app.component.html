@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="navbar-contents" *ngIf="!authorizationService.isSigned()">
       <span class="app-title">friendsbook</span>
-      <app-login></app-login>
+      <app-login (onSuccessfulLogin)="connectWebsocket()"></app-login>
     </div>
   </div>
   <router-outlet></router-outlet>

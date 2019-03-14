@@ -17,6 +17,10 @@ export class ChatComponent implements OnInit {
   messages: Message[];
   @Output()
   onConversationLoaded = new EventEmitter<{recipientId: number, messages: Message[]}>();
+  @Output()
+  onClose = new EventEmitter<number>();
+
+  active = false;
 
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) {
   }
@@ -41,13 +45,17 @@ export class ChatComponent implements OnInit {
     this.messages.push(message);
   }
 
-  isReceivedMessage(message: Message) {
+  isReceivedMessage(message: Message): boolean {
     return message.senderId === this.contact.id;
   }
 
-  hasDisplayedProfileIcon(message: Message, index: number) {
+  hasDisplayedProfileIcon(message: Message, index: number): boolean {
     const nextIndex = index + 1;
     return this.isReceivedMessage(message) && (nextIndex >= this.messages.length
       || nextIndex < this.messages.length && !this.isReceivedMessage(this.messages[nextIndex]));
+  }
+
+  close() {
+    this.onClose.emit(this.contact.id);
   }
 }

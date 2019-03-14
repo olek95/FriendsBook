@@ -1,7 +1,8 @@
-<div>
+<div (click)="active = true" [ngClass]="{active: active}">
   <div class="header">
     <span class="profile-picture"></span>
     <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
+    <span class="close-button" (click)="close()"></span>
   </div>
   <div class="conversation">
     <div *ngFor="let message of messages; let i = index" class="message"

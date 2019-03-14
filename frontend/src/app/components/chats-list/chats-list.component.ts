@@ -14,8 +14,7 @@ export class ChatsListComponent implements OnInit {
 
   conversations = new Map<number, Message[]>();
 
-  constructor(private messageService: MessageService) {
-  }
+  constructor(private messageService: MessageService) {}
 
   ngOnInit() {
     this.messageService.startListeningForMessage().subscribe(message => {
@@ -32,5 +31,10 @@ export class ChatsListComponent implements OnInit {
 
   addConversation(conversation: {recipientId: number, messages: Message[]}) {
     this.conversations.set(conversation.recipientId, conversation.messages);
+  }
+
+  removeConversation(correspondentId: number) {
+    this.conversations.delete(correspondentId);
+    this.contacts.splice(this.contacts.findIndex(contact => contact.id === correspondentId), 1);
   }
 }

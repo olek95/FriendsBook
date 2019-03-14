@@ -2,7 +2,11 @@
   width: 100%;
 
   app-chat {
-    margin-right: 229px;
+    margin-right: 11px;
     float: right;
+
+    &:first-child {
+      margin-right: 229px;
+    }
   }
 }
