@@ -1,19 +1,21 @@
-<div (click)="active = true" [ngClass]="{active: active}">
-  <div class="header">
+<div class="chat" [ngClass]="{active: active, minimized: minimized}">
+  <div class="header" (click)="changeMinimalizationState()">
     <span class="profile-picture"></span>
     <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
     <span class="close-button" (click)="close()"></span>
   </div>
-  <div class="conversation">
-    <div *ngFor="let message of messages; let i = index" class="message"
-         [ngClass]="{'received-message': isReceivedMessage(message), 'sent-message': !isReceivedMessage(message)}">
-      <span class="profile-picture" *ngIf="hasDisplayedProfileIcon(message, i)"></span>
-      <span class="content" [style.margin-left]="hasDisplayedProfileIcon(message, i) ? '5%' : '16.9%'">{{message.content}}</span>
+  <div (click)="select()" *ngIf="!minimized" id="{{'conversation-' + contact.id}}">
+    <div class="conversation">
+      <div *ngFor="let message of messages; let i = index" class="message"
+           [ngClass]="{'received-message': isReceivedMessage(message), 'sent-message': !isReceivedMessage(message)}">
+        <span class="profile-picture" *ngIf="hasDisplayedProfileIcon(message, i)"></span>
+        <span class="content" [style.margin-left]="hasDisplayedProfileIcon(message, i) ? '5%' : '16.9%'">{{message.content}}</span>
+      </div>
     </div>
-  </div>
-  <div>
-    <form (ngSubmit)="sendMessage(message.value)">
-      <input #message class="form-control" placeholder="Wpisz wiadomość..."/>
-    </form>
+    <div>
+      <form (ngSubmit)="sendMessage(message.value)">
+        <input #message class="form-control" placeholder="Wpisz wiadomość..."/>
+      </form>
+    </div>
   </div>
 </div>

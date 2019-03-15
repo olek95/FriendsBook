@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import { UserPreview } from '../../../models/user/user-preview';
 import { Message } from '../../../models/message/message';
@@ -15,12 +15,16 @@ export class ChatComponent implements OnInit {
   contact: UserPreview;
   @Input()
   messages: Message[];
+  @Input()
+  active: boolean;
   @Output()
   onConversationLoaded = new EventEmitter<{recipientId: number, messages: Message[]}>();
   @Output()
   onClose = new EventEmitter<number>();
+  @Output()
+  onSelection = new EventEmitter<number>();
 
-  active = false;
+  minimized = false;
 
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) {
   }
@@ -57,5 +61,18 @@ export class ChatComponent implements OnInit {
 
   close() {
     this.onClose.emit(this.contact.id);
+  }
+
+  changeMinimalizationState() {
+    this.minimized = !this.minimized;
+    if (!this.minimized) {
+      setTimeout(() => {
+        this.onSelection.emit(this.contact.id);
+      });
+    }
+  }
+
+  select() {
+    this.onSelection.emit(this.contact.id);
   }
 }

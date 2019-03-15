@@ -1,2 +1,3 @@
 <app-chat *ngFor="let contact of contacts" [contact]="contact" [messages]="conversations.get(contact.id)"
-          (onConversationLoaded)="addConversation($event)" (onClose)="removeConversation($event)"></app-chat>
+          (onConversationLoaded)="addConversation($event)" (onClose)="removeConversation($event)"
+          [active]="contactIdOfActiveChat === contact.id" (onSelection)="activateChat($event)"></app-chat>

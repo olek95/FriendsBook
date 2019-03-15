@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import { UserService } from '../../services/user/user.service';
 import { UserPreview } from '../../models/user/user-preview';
+import { ContactsService } from '../../services/contacts/contacts.service';
 
 @Component({
   selector: 'app-contacts-sidebar',
@@ -14,10 +15,11 @@ export class ContactsSidebarComponent implements OnInit {
 
   users: UserPreview[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private contactsService: ContactsService) {
 
     this.userService.loadAllChatContacts().subscribe(users => {
         this.users = users;
+        this.contactsService.setContacts(users);
     });
   }
 
