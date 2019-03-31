@@ -1,0 +1,11 @@
+<div>
+  <div class="chat-select-list" *ngIf="contactsListVisible">
+    <div class="list-option" *ngFor="let contact of contacts" (click)="selectContact(contact)">
+      <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
+      <i class="fa fa-times-circle" (click)="removeContact(contact.id)"></i>
+    </div>
+  </div>
+  <div class="selector" (click)="contactsListVisible = !contactsListVisible">
+    <i class="fa fa-comments"></i>
+  </div>
+</div>

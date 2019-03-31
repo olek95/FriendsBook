@@ -1,0 +1,54 @@
+.chat-select-list {
+  position: absolute;
+  bottom: 11%;
+  font-size: 13px;
+  background-color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+  padding: 1% 0;
+  border: 1px solid rgba(0, 0, 0, .15);
+  width: 162px;
+
+  .list-option {
+    padding-bottom: 2%;
+
+    &:hover {
+      background-color: rgb(66, 103, 178);
+      cursor: pointer;
+      color: white;
+
+      .fa-times-circle {
+        display: inline;
+      }
+    }
+
+    .fa-times-circle {
+      float: right;
+      position: relative;
+      right: 12%;
+      top: 3px;
+      font-size: 1.1em;
+      display: none;
+    }
+
+    .contact-name {
+      margin-left: 16%;
+    }
+  }
+}
+.selector {
+  background-color: white;
+  padding: 7.95px 0;
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%;
+  box-shadow: 1px -1px lightgrey, -1px -1px lightgrey;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(242, 243, 245);
+  }
+
+  .fa-comments {
+    font-size: 1.5em;
+    margin-left: 29%;
+  }
+}

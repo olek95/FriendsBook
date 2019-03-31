@@ -1,5 +1,5 @@
 <div class="chat" [ngClass]="{active: active, minimized: minimized}">
-  <div class="header" (click)="changeMinimalizationState()">
+  <div class="header" (click)="changeMinimalizationState()" [style.width.px]="getActualWidth()">
     <span class="profile-picture"></span>
     <span class="contact-name">{{contact.name + ' ' + contact.surname}}</span>
     <span class="close-button" (click)="close()"></span>

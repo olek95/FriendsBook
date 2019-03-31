@@ -22,6 +22,7 @@ import { AuthorizedAccessGuard } from './services/guards/authorized-access-guard
 import { NotAuthorizedAccessGuard } from './services/guards/not-authorized-access-guard.service';
 import { ChatComponent } from './components/chats-list/chat/chat.component';
 import { ChatsListComponent } from './components/chats-list/chats-list.component';
+import { ChatSelectorComponent } from './components/chats-list/chat-selector/chat-selector.component';
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent, canActivate: [ NotAuthorizedAccessGuard ] },
@@ -39,7 +40,8 @@ const routes: Routes = [
         ContactsSidebarComponent,
         ContactSidebarComponent,
         ChatComponent,
-        ChatsListComponent
+        ChatsListComponent,
+        ChatSelectorComponent
     ],
     imports: [
         BrowserModule,

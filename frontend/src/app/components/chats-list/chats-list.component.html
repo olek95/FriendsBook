@@ -1,3 +1,9 @@
-<app-chat *ngFor="let contact of contacts" [contact]="contact" [messages]="conversations.get(contact.id)"
-          (onConversationLoaded)="addConversation($event)" (onClose)="removeConversation($event)"
-          [active]="contactIdOfActiveChat === contact.id" (onSelection)="activateChat($event)"></app-chat>
+<div>
+  <app-chat *ngFor="let contact of contacts.slice(contacts.length - possibleVisibleChatsNumber); let id = index" [contact]="contact" [messages]="conversations.get(contact.id)"
+            (onConversationLoaded)="addConversation($event)" (onClose)="removeConversation($event)"
+            [active]="contactIdOfActiveChat === contact.id" (onSelection)="activateChat($event)"
+            [style.margin-right.px]="id === 0 ? firstChatRightMargin : notFirstChatRightMargin"></app-chat>
+  <app-chat-selector *ngIf="possibleVisibleChatsNumber < contacts.length" (onContactSelection)="restoreChat($event)"
+                     [contacts]="contacts.slice(0, contacts.length - possibleVisibleChatsNumber)"
+                     (onRemovingContact)="removeConversation($event)"></app-chat-selector>
+</div>

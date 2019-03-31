@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostBinding, Input, OnInit, Output} from '@angular/core';
 
 import { UserPreview } from '../../../models/user/user-preview';
 import { Message } from '../../../models/message/message';
@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   onSelection = new EventEmitter<number>();
 
   minimized = false;
+  static readonly WIDTH = 284;
 
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) {
   }
@@ -74,5 +75,9 @@ export class ChatComponent implements OnInit {
 
   select() {
     this.onSelection.emit(this.contact.id);
+  }
+
+  getActualWidth(): number {
+    return this.minimized ? 194 : ChatComponent.WIDTH;
   }
 }

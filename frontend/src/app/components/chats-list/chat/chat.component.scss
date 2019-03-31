@@ -1,5 +1,4 @@
 .chat {
-  width: 284px;
   max-height: 351px;
   min-height: 33px;
   background-color: white;
@@ -20,7 +19,6 @@
   }
 
   &.minimized {
-    width: 194px;
     margin-top: 162%;
 
     .header {

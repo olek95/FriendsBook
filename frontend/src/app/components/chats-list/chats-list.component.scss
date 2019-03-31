@@ -1,12 +1,12 @@
 :host {
   width: 100%;
 
-  app-chat {
-    margin-right: 11px;
+  app-chat, app-chat-selector {
     float: right;
+  }
 
-    &:first-child {
-      margin-right: 229px;
-    }
+  app-chat-selector {
+    margin-right: 11px;
+    margin-top: 300px;
   }
 }
