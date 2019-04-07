@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { RxStompService } from '@stomp/ng2-stompjs';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -12,6 +13,9 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { InputWithValidationDirective } from './directives/input-with-validation.directive';
 import { ContactsSidebarComponent } from './components/contacts-sidebar/contacts-sidebar.component';
 import { ContactSidebarComponent } from './components/contacts-sidebar/contact-sidebar/contact-sidebar.component';
+import { ChatsListComponent } from './components/chats-list/chats-list.component';
+import { ChatComponent } from './components/chats-list/chat/chat.component';
+import { ChatSelectorComponent } from './components/chats-list/chat-selector/chat-selector.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -22,7 +26,10 @@ describe('AppComponent', () => {
         RegistrationComponent,
         ContactsSidebarComponent,
         ContactSidebarComponent,
-        InputWithValidationDirective
+        InputWithValidationDirective,
+        ChatsListComponent,
+        ChatComponent,
+        ChatSelectorComponent
       ],
       imports: [
         FormsModule,
@@ -32,7 +39,8 @@ describe('AppComponent', () => {
         OwlNativeDateTimeModule,
         RouterTestingModule,
         ToastrModule.forRoot()
-      ]
+      ],
+      providers: [ RxStompService ]
     }).compileComponents();
   }));
 

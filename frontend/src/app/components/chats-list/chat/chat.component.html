@@ -13,8 +13,8 @@
       </div>
     </div>
     <div>
-      <form (ngSubmit)="sendMessage(message.value)">
-        <input #message class="form-control" placeholder="Wpisz wiadomość..."/>
+      <form (ngSubmit)="sendMessage()">
+        <input [(ngModel)]="messageContent" class="form-control" placeholder="Wpisz wiadomość..." [ngModelOptions]="{standalone: true}"/>
       </form>
     </div>
   </div>

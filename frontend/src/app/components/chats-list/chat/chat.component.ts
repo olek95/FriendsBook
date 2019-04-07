@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   onSelection = new EventEmitter<number>();
 
   minimized = false;
+  messageContent: string;
   static readonly WIDTH = 284;
 
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) {
@@ -40,14 +41,15 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  sendMessage(content) {
+  sendMessage() {
     const message = {
-      content: content,
+      content: this.messageContent,
       senderId: -1,
       recipientId: this.contact.id
     };
     this.messageService.sendMessage(message, this.contact.login);
     this.messages.push(message);
+    this.messageContent = '';
   }
 
   isReceivedMessage(message: Message): boolean {
