@@ -38,8 +38,6 @@ export class ChatsListComponent implements OnInit {
     if (!this.conversations.has(message.senderId)) {
       this.conversations.set(message.senderId, []);
     }
-    console.log(this.contacts);
-    console.log(message);
     if (!this.contacts.some(contact => contact.id === message.senderId)) {
       this.contacts.push(this.contactsService.getContact(message.senderId));
     }
