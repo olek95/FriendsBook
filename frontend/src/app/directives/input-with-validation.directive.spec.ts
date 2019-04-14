@@ -87,7 +87,7 @@ describe('InputWithValidationDirective', () => {
     changeInputValue(emailFixture, 'mail@mail.mail');
     expect(emailFixture.debugElement.nativeElement.querySelector('input')).not.toHaveClass('is-invalid');
     expect(emailFixture.debugElement.nativeElement.querySelector('.tooltip')).toBeFalsy();
-  })
+  });
 
   it('error tooltip should to close itself after input focusout event', () => {
     changeInputValue(emailFixture, 'mail');

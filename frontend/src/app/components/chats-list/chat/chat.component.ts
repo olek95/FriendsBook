@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { UserPreview } from '../../../models/user/user-preview';
 import { Message } from '../../../models/message/message';
@@ -10,7 +10,7 @@ import { MessageService } from '../../../services/message/message.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges {
   @Input()
   contact: UserPreview;
   @Input()
@@ -24,6 +24,9 @@ export class ChatComponent implements OnInit {
   @Output()
   onSelection = new EventEmitter<number>();
 
+  @ViewChild('messageInput')
+  messageInput;
+
   minimized = false;
   messageContent: string;
   static readonly WIDTH = 284;
@@ -33,7 +36,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.messageService.getConversationWithUser(this.contact.id).subscribe((conversation: Message[]) => {
-      this.messages = conversation;
+      this.messages = conversation || [];
       this.onConversationLoaded.emit({
         recipientId: this.contact.id,
         messages: this.messages
@@ -41,15 +44,23 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.messageInput) {
+      changes.active.currentValue ? this.messageInput.nativeElement.focus() : this.messageInput.nativeElement.blur();
+    }
+  }
+
   sendMessage() {
-    const message = {
-      content: this.messageContent,
-      senderId: -1,
-      recipientId: this.contact.id
-    };
-    this.messageService.sendMessage(message, this.contact.login);
-    this.messages.push(message);
-    this.messageContent = '';
+    if (this.messageContent && this.messageContent.trim()) {
+      const message = {
+        content: this.messageContent,
+        senderId: -1,
+        recipientId: this.contact.id
+      };
+      this.messageService.sendMessage(message, this.contact.login);
+      this.messages.push(message);
+      this.messageContent = '';
+    }
   }
 
   isReceivedMessage(message: Message): boolean {

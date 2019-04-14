@@ -14,7 +14,8 @@
     </div>
     <div>
       <form (ngSubmit)="sendMessage()">
-        <input [(ngModel)]="messageContent" class="form-control" placeholder="Wpisz wiadomość..." [ngModelOptions]="{standalone: true}"/>
+        <input [(ngModel)]="messageContent" class="form-control" placeholder="Wpisz wiadomość..." [ngModelOptions]="{standalone: true}"
+               #messageInput/>
       </form>
     </div>
   </div>
