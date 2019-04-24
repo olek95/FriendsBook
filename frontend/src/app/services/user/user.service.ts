@@ -8,9 +8,6 @@ import { UserPreview } from '../../models/user/user-preview';
 })
 export class UserService {
 
-  private message;
-  private wsstate;
-
   constructor(private http: HttpClient) { }
 
   loadAllChatContacts(): Observable<UserPreview[]>{

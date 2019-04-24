@@ -28,4 +28,10 @@ describe('ContactSidebarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display name and surname of user', () => {
+    const displayedName = fixture.debugElement.nativeElement.querySelector('.contact-name').textContent;
+    expect(displayedName).toContain(component.user.name);
+    expect(displayedName).toContain(component.user.surname);
+  });
 });
