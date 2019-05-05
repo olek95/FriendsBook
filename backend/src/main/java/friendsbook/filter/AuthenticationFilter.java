@@ -15,13 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    public final static String BASIC_TOKEN_AUTHENTICATION = "Basic";
+    
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authorization != null && authorization.startsWith("Basic ")) {
-            String encodedCredentials = authorization.substring("Basic".length()).trim();
+        if (authorization != null && authorization.startsWith(BASIC_TOKEN_AUTHENTICATION + " ")) {
+            String encodedCredentials = authorization.substring(BASIC_TOKEN_AUTHENTICATION.length()).trim();
             byte[] decodedCredentials = Base64.getDecoder().decode(encodedCredentials);
             String credentials = new String(decodedCredentials);
             String[] data = credentials.split(":"); // name:password
@@ -38,7 +39,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        TokenAuthenticationService.addAuthentication(response, authentication.getName());
+        TokenAuthenticationService.addAuthentication(response, authentication.getName(), ((UserAuthentication)authentication).getId());
         response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
     }
 }

@@ -1,11 +1,10 @@
-package web;
+package friendsbook.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.user.Gender;
 import friendsbook.service.UserService;
-import friendsbook.web.UserResource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;

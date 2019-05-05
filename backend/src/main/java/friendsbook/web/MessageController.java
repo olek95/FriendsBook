@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MessageController {
-    private MessageService messageService; 
-    private SimpMessagingTemplate messagingTemplate;
+    private final MessageService messageService; 
+    private final SimpMessagingTemplate messagingTemplate;
     
     @Autowired
     public MessageController(MessageService messageService, SimpMessagingTemplate messagingTemplate) {

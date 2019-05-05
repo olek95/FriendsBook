@@ -31,14 +31,29 @@ public class UserService implements UserDetailsService {
         return user == null ? null : new UserDetailsImpl(user);
     }
     
+    /**
+     * Loads user by email by comparing email of each user to passed email. 
+     * This comparison need to be done manually as we need case sensitive
+     * and not with using BINARY attribute for MySQL column as it seems like
+     * it is not supported for H2 db used for tests.
+     * @param email
+     * @return user which has the same email (case sensitive)
+     */
     public UserDetails loadUserByEmail(@Valid @Email String email) {
         String[] emailParts = email.split("@");
-        User user = userRepository.findByEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
+        List<User> users = userRepository.findByEmail(emailParts[0] + "@" + emailParts[1].toLowerCase());
+        User user = null;
+        for (User storedUser : users) {
+            String emailUsernamePart = storedUser.getEmail().split("@")[0];
+            if (emailUsernamePart.equals(emailParts[0])) {
+                user = storedUser;
+            }
+        }
         return user == null ? null : new UserDetailsImpl(user);
     }
     
     public User getUser(long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElse(null);
     }
     
     public User save(UserResource userResource) {

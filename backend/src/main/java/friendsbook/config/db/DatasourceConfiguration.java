@@ -14,30 +14,27 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Properties;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 @Configuration
 @EnableJpaRepositories(basePackages={"friendsbook.dao"})
 public class DatasourceConfiguration {
     
-    @Value("${jdbc.driver-class-name}")
-    private String driverClassName;
-    @Value("${jdbc.url}")
-    private String url;
-    @Value("${jdbc.username}")
-    private String username; 
-    @Value("${jdbc.password}")
-    private String password;
+    private final Environment environment;
     
-    
+    @Autowired
+    public DatasourceConfiguration(Environment environment) {
+        this.environment = environment;
+    }
     
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new  BasicDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setDriverClassName(environment.getProperty("jdbc.driver-class-name"));
+        dataSource.setUrl(environment.getProperty("jdbc.url"));
+        dataSource.setUsername(environment.getProperty("jdbc.username"));
+        dataSource.setPassword(environment.getProperty("jdbc.password"));
         return dataSource;
     }
     

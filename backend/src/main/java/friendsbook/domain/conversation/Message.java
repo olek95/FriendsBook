@@ -2,6 +2,7 @@ package friendsbook.domain.conversation;
 
 import friendsbook.domain.user.User;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,4 +43,28 @@ public class Message implements Serializable {
     public User getRecipient() { return recipient; }
     
     public void setRecipient(User recipient) { this.recipient = recipient; }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 29 * hash + Objects.hashCode(this.content);
+        hash = 29 * hash + Objects.hashCode(this.sender);
+        hash = 29 * hash + Objects.hashCode(this.recipient);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Message)) {
+            return false;
+        }
+        final Message other = (Message) obj;
+        
+        return this.id == other.id && Objects.equals(this.content, other.content)
+                && Objects.equals(this.sender, other.sender) && Objects.equals(this.recipient, other.recipient);
+    }
 }

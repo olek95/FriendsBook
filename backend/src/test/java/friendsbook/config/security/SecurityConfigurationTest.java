@@ -1,7 +1,8 @@
-package config;
+package friendsbook.config.security;
 
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.user.Gender;
+import friendsbook.filter.AuthenticationFilter;
 import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
 import java.util.Base64;
@@ -33,25 +34,23 @@ public class SecurityConfigurationTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    private boolean dbFilled = false;
-    private MockMvc mvc;
-    private static final String AUTHORIZATION_PREFIX = "Basic";
-    private UserResource user = new UserResource();
+    private static MockMvc mvc;
+    private UserResource user;
 
     @BeforeEach
     public void setup() {
-        if (!dbFilled) {
-            user.setBirthDate(new Date());
-            user.setEmail("sample@mail.mail");
-            user.setGender(Gender.FEMALE);
-            user.setLogin("Login");
-            user.setName("Name");
-            user.setPassword("Password");
-            user.setSurname("Surname");
-            userService.save(user);
-            dbFilled = true;
+        user = new UserResource();
+        user.setBirthDate(new Date());
+        user.setEmail("sample@mail.mail");
+        user.setGender(Gender.FEMALE);
+        user.setLogin("Login");
+        user.setName("Name");
+        user.setPassword("Password");
+        user.setSurname("Surname");
+        userService.save(user);
+        if (mvc == null) {
+            mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(SecurityMockMvcConfigurers.springSecurity()).build();
         }
-        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(SecurityMockMvcConfigurers.springSecurity()).build();
     }
     
     @Test
@@ -143,6 +142,6 @@ public class SecurityConfigurationTest {
     }
     
     private String getAuthorizationHeader(String name, String password) {
-        return AUTHORIZATION_PREFIX + " " + new String(Base64.getEncoder().encode((name + ":" + password).getBytes()));
+        return AuthenticationFilter.BASIC_TOKEN_AUTHENTICATION + " " + new String(Base64.getEncoder().encode((name + ":" + password).getBytes()));
     }
 }

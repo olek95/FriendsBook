@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.User;
 
 public class UserDetailsImpl extends User {
     
-    private long id;
+    private final long id;
     
     public UserDetailsImpl(friendsbook.domain.user.User user) {
         super(user.getLogin(), user.getPassword(), new ArrayList());
@@ -19,7 +19,6 @@ public class UserDetailsImpl extends User {
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + Objects.hashCode(getUsername());
-        hash = 53 * hash + Objects.hashCode(getPassword());
         return hash;
     }
 
@@ -32,6 +31,6 @@ public class UserDetailsImpl extends User {
             return false;
         }
         UserDetailsImpl user = (UserDetailsImpl) obj;
-        return Objects.equals(getUsername().toLowerCase(), user.getUsername().toLowerCase()) && Objects.equals(getPassword(), user.getPassword());
+        return Objects.equals(getUsername().toLowerCase(), user.getUsername().toLowerCase());
     }
 }

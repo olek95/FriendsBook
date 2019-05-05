@@ -1,7 +1,6 @@
-package filter;
+package friendsbook.filter;
 
 import friendsbook.config.WebConfiguration;
-import friendsbook.filter.JWTAuthenticationFilter;
 import friendsbook.service.TokenAuthenticationService;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ public class JWTAuthenticationFilterTest {
     @Test
     public void testAuthorizedRequestPassedSuccessfully() throws IOException, ServletException {
         MockHttpServletResponse response = new MockHttpServletResponse(); 
-        TokenAuthenticationService.addAuthentication(response, "Login");
+        TokenAuthenticationService.addAuthentication(response, "Login", 1);
         MockHttpServletRequest request = new MockHttpServletRequest(); 
         request.addHeader(HttpHeaders.AUTHORIZATION, response.getHeader(HttpHeaders.AUTHORIZATION));
         MockHttpServletResponse response2 = new MockHttpServletResponse();

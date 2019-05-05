@@ -1,8 +1,7 @@
-package service;
+package friendsbook.service;
 
 import friendsbook.config.WebConfiguration;
 import friendsbook.model.UserAuthentication;
-import friendsbook.service.TokenAuthenticationService;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import javax.transaction.Transactional;
@@ -25,7 +24,7 @@ public class TokenAuthenticationServiceTest {
     @Test
     public void testGetAuthenticationWithUsingJWTToken() {
         MockHttpServletResponse response = new MockHttpServletResponse(); 
-        TokenAuthenticationService.addAuthentication(response, "Login");
+        TokenAuthenticationService.addAuthentication(response, "Login", 1);
         assertTrue(response.containsHeader(HttpHeaders.AUTHORIZATION));
         assertEquals(new UserAuthentication("Login", null),
                 TokenAuthenticationService.getAuthentication(response.getHeader(HttpHeaders.AUTHORIZATION)));

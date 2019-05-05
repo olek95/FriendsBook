@@ -1,11 +1,10 @@
-package service;
+package friendsbook.service;
 
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.user.Gender;
 import friendsbook.domain.user.User;
 import friendsbook.model.UserDetailsImpl;
 import friendsbook.exception.DuplicatedUserException;
-import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
 import java.util.Date;
 import javax.transaction.Transactional;
@@ -50,13 +49,12 @@ public class UserServiceTest {
         testSavedUser.setLogin("Login");
         testSavedUser.setName("Name");
         testSavedUser.setSurname("Surname");
+        testSavedUser.setPassword("Password");
     }
     
     @Test
     public void testRegistration() {
         User savedUser = userService.save(user);
-        testSavedUser.setPassword(savedUser.getPassword());
-        testSavedUser.setId(savedUser.getId());
         assertEquals(testSavedUser, savedUser, "Saved user is different from original user");
     }
     
@@ -136,32 +134,24 @@ public class UserServiceTest {
     @Test
     public void testLoadingUserByLogin() {
         User savedUser = userService.save(user); 
-        testSavedUser.setId(savedUser.getId());
-        testSavedUser.setPassword(savedUser.getPassword());
         assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByUsername(savedUser.getLogin()));
     }
     
     @Test
     public void testLoadingUserByLoginForCaseInsensitive() {
         User savedUser = userService.save(user); 
-        testSavedUser.setId(savedUser.getId());
-        testSavedUser.setPassword(savedUser.getPassword());
         assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByUsername(savedUser.getLogin().toUpperCase()));
     }
     
     @Test
     public void testLoadingUserByEmail() {
         User savedUser = userService.save(user);
-        testSavedUser.setId(savedUser.getId());
-        testSavedUser.setPassword(savedUser.getPassword());
         assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByEmail(savedUser.getEmail()));
     }
     
     @Test
     public void testLoadingUserByEmailForDomainPartCaseInsensitive() {
         User savedUser = userService.save(user);
-        testSavedUser.setId(savedUser.getId());
-        testSavedUser.setPassword(savedUser.getPassword());
         String[] emailParts = savedUser.getEmail().split("@");
         assertEquals(new UserDetailsImpl(testSavedUser), userService.loadUserByEmail(emailParts[0] + "@" + emailParts[1].toUpperCase()));
     }

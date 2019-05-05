@@ -1,11 +1,9 @@
-package service;
+package friendsbook.service;
 
 import friendsbook.config.WebConfiguration;
 import friendsbook.domain.user.Gender;
 import friendsbook.domain.user.User;
 import friendsbook.model.UserDetailsImpl;
-import friendsbook.service.AuthenticationServiceImpl;
-import friendsbook.service.UserService;
 import friendsbook.web.UserResource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,7 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.security.authentication.BadCredentialsException;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeAll;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {WebConfiguration.class})
@@ -34,12 +31,11 @@ public class AuthenticationServiceTest {
     @Autowired
     private UserService userService;
     
-    private boolean dbFilled = false;
     private static User testUser;
     
     
-    @BeforeAll
-    public static void createTestUser() {
+    @BeforeEach
+    public void createTestUser() {
         testUser = new User();
         testUser.setBirthDate(new Date());
         testUser.setEmail("sample@mail.mail");
@@ -47,24 +43,20 @@ public class AuthenticationServiceTest {
         testUser.setLogin("Login");
         testUser.setName("Name");
         testUser.setSurname("Surname");
+        testUser.setPassword("Password");
     }
     
     @BeforeEach
     public void addSampleUser() {
-        if (!dbFilled) {
-            UserResource user = new UserResource();
-            user.setBirthDate(new Date());
-            user.setEmail("sample@mail.mail");
-            user.setGender(Gender.FEMALE);
-            user.setLogin("Login");
-            user.setName("Name");
-            user.setPassword("Password");
-            user.setSurname("Surname");
-            User savedUser = userService.save(user);
-            dbFilled = true;
-            testUser.setId(savedUser.getId());
-            testUser.setPassword(savedUser.getPassword());
-        }
+        UserResource user = new UserResource();
+        user.setBirthDate(new Date());
+        user.setEmail("sample@mail.mail");
+        user.setGender(Gender.FEMALE);
+        user.setLogin("Login");
+        user.setName("Name");
+        user.setPassword("Password");
+        user.setSurname("Surname");
+        userService.save(user);
     }
     
     @Test

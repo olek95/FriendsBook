@@ -27,7 +27,7 @@ public class User implements Serializable {
     private String login;
     @Column(nullable = false, length = 60)
     private String password; 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(254) BINARY")
+    @Column(nullable = false, length = 254)
     private String email;
     @Column(nullable = false, length = 30)
     private String name; 
@@ -92,14 +92,8 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + (int) (id ^ (id >>> 32));
         hash = 29 * hash + Objects.hashCode(login);
-        hash = 29 * hash + Objects.hashCode(password);
         hash = 29 * hash + Objects.hashCode(email);
-        hash = 29 * hash + Objects.hashCode(name);
-        hash = 29 * hash + Objects.hashCode(surname);
-        hash = 29 * hash + Objects.hashCode(birthDate);
-        hash = 29 * hash + Objects.hashCode(gender);
         return hash;
     }
 
@@ -112,11 +106,8 @@ public class User implements Serializable {
             return false;
         }
         User user = (User)obj;
-        return id == user.id && Objects.equals(login.toLowerCase(), user.login.toLowerCase()) 
-                && Objects.equals(password, user.password)
-                && Objects.equals(formatEmailDomainPartToCaseInsensitive(email), formatEmailDomainPartToCaseInsensitive(user.email))
-                && Objects.equals(name, user.name) && Objects.equals(surname, user.surname)
-                && Objects.equals(birthDate, user.birthDate);
+        return Objects.equals(login.toLowerCase(), user.login.toLowerCase()) 
+                && Objects.equals(formatEmailDomainPartToCaseInsensitive(email), formatEmailDomainPartToCaseInsensitive(user.email));
     }
     
     private String formatEmailDomainPartToCaseInsensitive(String email) {
